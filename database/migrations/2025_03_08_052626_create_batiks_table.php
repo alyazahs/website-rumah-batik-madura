@@ -16,11 +16,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('gambar')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
-        });
-
-        Schema::table('batiks', function (Blueprint $table) {
-            $table->decimal('harga', 10, 2)->default(0)->after('deskripsi');
         });
     }
 
@@ -31,8 +28,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('batiks');
-        Schema::table('batiks', function (Blueprint $table) {
-            $table->dropColumn('harga');
-        });
     }
 };
