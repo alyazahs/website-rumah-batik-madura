@@ -19,8 +19,8 @@
                 <div class="p-6">
                     <h2 class="text-2xl font-bold text-gray-900">{{ $batik->nama }}</h2>
                     <p class="text-gray-600 mt-2">{{ Str::limit($batik->deskripsi, 80) }}</p>
-                    <p class="text-red-600 font-bold text-lg mt-3">Rp {{ number_format($batik->harga, 0, ',', '.') }}</p>
-                    <a href="#" class="block text-center bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-3 px-5 rounded-lg mt-5 hover:from-blue-600 hover:to-blue-800 transition-all">
+                    <p class="text-black font-bold text-lg mt-3">Rp {{ number_format($batik->harga, 0, ',', '.') }}</p>
+                    <a href="#" class="block text-center bg-[#6c757d] text-white font-semibold py-3 px-5 rounded-lg mt-5 hover:from-blue-600 hover:to-blue-800 transition-all">
                         🔍 Lihat Detail
                     </a>
                 </div>
