@@ -6,6 +6,7 @@
     @vite('resources/css/app.css')
     <title>Website Batik Madura</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <script src="{{ asset('js/menu.js') }}" defer></script>
 <body class="bg-gray-100 font-sans">
@@ -28,6 +29,7 @@
     </div>
     
     <footer class="bg-gradient-to-r from-gray-800 to-gray-700 text-white py-6 mt-8">
+    @if (!Request::is('admin*'))
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-lg font-semibold">Batik Madura</h2>
         <p class="text-sm text-gray-400 mt-1">&copy; 2025 Batik Madura | All Rights Reserved</p>
@@ -45,7 +47,8 @@
         </div>
     </div>
 </footer>
-
+@endif
+    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
 
 </body>

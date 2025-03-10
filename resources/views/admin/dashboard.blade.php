@@ -1,28 +1,41 @@
 @extends('layouts.app')
+
 @section('content')
-<div class="min-h-screen flex flex-col bg-[#dee2e6] text-white">
-    <nav class="bg-[#6c757d] shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 class="text-xl font-bold text-gray-800">Admin Dashboard</h1>
-        <button class="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition">Logout</button>
-    </nav>
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="w-100 px-4">
+        <h1 class="text-center mb-5 text-dark fw-bold">Dashboard Admin</h1>
+        <div class="row g-4 justify-content-center">
+            @php
+                $cards = [
+                    ['title' => 'Produk', 'desc' => 'Kelola produk batik', 'color' => 'primary', 'link' => '#'],
+                    ['title' => 'Pesanan', 'desc' => 'Kelola pesanan pelanggan', 'color' => 'success', 'link' => '#'],
+                    ['title' => 'Pengguna', 'desc' => 'Kelola akun pengguna', 'color' => 'warning', 'link' => '#']
+                ];
+            @endphp
 
-    <div class="flex flex-1">
-        <aside class="w-64 bg-gray-800 p-5 hidden md:block shadow-lg">
-            <h2 class="text-lg font-semibold text-gray-300 mb-4">Menu</h2>
-            <ul class="space-y-4">
-                <li><a href="#" class="block py-3 px-4 rounded-lg bg-gray-800 hover:bg-blue-600 transition">Dashboard</a></li>
-                <li><a href="#" class="block py-3 px-4 rounded-lg hover:bg-blue-600 transition">Kelola Katalog</a></li>
-                <li><a href="#" class="block py-3 px-4 rounded-lg hover:bg-blue-600 transition">Kelola Pesanan</a></li>
-                <li><a href="#" class="block py-3 px-4 rounded-lg hover:bg-blue-600 transition">Kelola Pengguna</a></li>
-            </ul>
-        </aside>
-
-        <main class="flex-1 p-8">
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-3xl font-bold text-gray-800">Selamat Datang, Admin!</h2>
-                <p class="text-gray-600 mt-2">Kelola toko batik dengan mudah di sini.</p>
+            @foreach ($cards as $card)
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 text-white bg-{{ $card['color'] }} rounded-4 transition-hover">
+                    <div class="card-body text-center py-5">
+                        <h5 class="card-title fs-4">{{ $card['title'] }}</h5>
+                        <p class="card-text">{{ $card['desc'] }}</p>
+                        <a href="{{ $card['link'] }}" class="btn btn-light fw-bold">Kelola</a>
+                    </div>
+                </div>
             </div>
-        </main>
+            @endforeach
+        </div>
     </div>
 </div>
+
+<style>
+    .transition-hover {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+</style>
 @endsection
