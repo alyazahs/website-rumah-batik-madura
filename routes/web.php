@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BatikController;
 
 Route::get('/', function () {
@@ -18,6 +19,11 @@ Route::get('/tentang', function () {
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/'); 
+})->name('logout');
 
 Route::get('/katalog', [BatikController::class, 'index'])->name('katalog');
 

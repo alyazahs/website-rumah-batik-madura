@@ -28,8 +28,8 @@
         @yield('content')
     </div>
     
-    <footer class="bg-gradient-to-r from-gray-800 to-gray-700 text-white py-6 mt-8">
     @if (!Request::is('admin*'))
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-700 text-white py-6 mt-8">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-lg font-semibold">Batik Madura</h2>
         <p class="text-sm text-gray-400 mt-1">&copy; 2025 Batik Madura | All Rights Reserved</p>
