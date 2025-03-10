@@ -12,10 +12,11 @@
             <div class="mt-6 p-5 bg-gray-100 rounded-lg shadow-md">
                 <h4 class="text-lg font-semibold text-gray-800 mb-3">Informasi Usaha:</h4>
                 <ul class="space-y-2 text-gray-600">
-                    <li><i class="fas fa-map-marker-alt text-red-500 mr-2"></i> <strong>Alamat:</strong> Jl. Hercules Perum Bumi Antariksa No.E37, Klegen, Kec. Kartoharjo, Kota Madiun, Jawa Timur</li>
+                    <li><i class="fas fa-map-marker-alt text-orange-500 mr-2"></i> <strong>Alamat:</strong> Jl. Hercules Perum Bumi Antariksa No.E37, Klegen, Kec. Kartoharjo, Kota Madiun, Jawa Timur</li>
                     <li><i class="fas fa-clock text-grey-500 mr-2"></i> <strong>Jam Operasional:</strong> Senin - Minggu (06.00 - 17.00 WIB)</li>
                     <li><i class="fas fa-phone text-green-500 mr-2"></i> <strong>Kontak:</strong> 0878-3032-5994</li>
                     <li><i class="fab fa-instagram text-blue-500 mr-2"></i> <strong>Instagram:</strong> @rumah.batik.madura</li>
+                    <li><i class="fas fa-envelope text-red-500 mr-2"></i> <strong>Email:</strong> batikmadurarumah@gmail.com</li>
                 </ul>
 
             </div>
