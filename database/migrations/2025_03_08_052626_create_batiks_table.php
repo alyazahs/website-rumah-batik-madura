@@ -12,15 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('batiks', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('gambar')->nullable();
+            $table->id(); 
+            $table->string('nama', 100);
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null'); 
+            $table->decimal('harga', 10, 2)->default(0);
+            $table->integer('stock')->default(0);
+            $table->string('gambar', 255)->nullable();
             $table->text('deskripsi')->nullable();
-            $table->text('harga')->nullable();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
-
 
     /**
      * Reverse the migrations.
