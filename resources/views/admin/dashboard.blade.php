@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="mt-8">
-        <form action="{{ route('logout') }}" method="POST">
+    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
             @csrf
             <button type="submit" class="px-6 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition">Logout</button>
         </form>
