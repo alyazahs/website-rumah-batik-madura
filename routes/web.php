@@ -1,33 +1,33 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BatikController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\BatikController;
 
+// Home
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/katalog', function () {
-    return view('katalog');
-})->name('katalog');
+// Katalog
+Route::get('/katalog', [BatikController::class, 'index'])->name('katalog');
 
+// Tentang
 Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+// ====== AUTHENTICATION ======
+// Login Admin
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/'); 
-})->name('logout');
+// ====== ADMIN PANEL ======
+// Middleware memastikan hanya admin yang bisa mengakses dashboard
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-Route::get('/katalog', [BatikController::class, 'index'])->name('katalog');
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+    // Logout Admin
+    Route::match(['get', 'post'], '/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});
