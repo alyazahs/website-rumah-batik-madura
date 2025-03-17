@@ -10,12 +10,10 @@ class RedirectIfAuthenticated
 {
     public function handle(Request $request, Closure $next, string $guard = null)
     {
+        $guard = $guards[0] ?? 'web';
         if (Auth::guard($guard)->check()) {
             // Jika user sudah login dan mencoba akses login lagi, arahkan ke dashboard
-            return match ($guard) {
-                'admin' => redirect()->route('admin.dashboard'),
-                default => redirect('/'),
-            };
+            return redirect('/admin/dashboard');
         }
 
         return $next($request);

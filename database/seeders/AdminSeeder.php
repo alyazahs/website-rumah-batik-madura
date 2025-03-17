@@ -13,14 +13,14 @@ class AdminSeeder extends Seeder
         Admin::create([
             'nama' => 'Super Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // Gunakan Hash agar password aman
+            'password' => ('password123'), 
             'role' => 'super_admin',
         ]);
 
         Admin::create([
             'nama' => 'Admin Biasa',
             'email' => 'admin2@example.com',
-            'password' => Hash::make('password123'),
+            'password' => ('password123'),
             'role' => 'admin',
         ]);
     }

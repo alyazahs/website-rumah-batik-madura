@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('nama'); // Nama admin
-            $table->string('email')->unique(); // Email harus unik
-            $table->string('password'); // Password yang dienkripsi
-            $table->enum('role', ['super_admin', 'admin'])->default('admin'); // Role untuk multi-level admin
-            $table->unsignedBigInteger('created_by')->nullable(); // Siapa yang membuat akun admin ini (hanya untuk super admin)
-            $table->timestamp('last_login')->nullable(); // Terakhir login
+            $table->string('nama'); 
+            $table->string('email')->unique(); 
+            $table->string('password'); 
+            $table->enum('role', ['super_admin', 'admin'])->default('admin'); 
+            $table->unsignedBigInteger('created_by')->nullable(); 
+            $table->timestamp('last_login')->nullable(); 
             $table->timestamps();
 
-            // Foreign key untuk mencatat siapa yang membuat akun admin
             $table->foreign('created_by')->references('id')->on('admins')->onDelete('set null');
         });
     }
