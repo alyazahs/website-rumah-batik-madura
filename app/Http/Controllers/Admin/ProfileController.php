@@ -23,6 +23,8 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email'
         ]);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         $user->update($request->only('name', 'email'));
 
         return back()->with('success', 'profile berhasil diperbarui.');
@@ -46,6 +48,8 @@ class ProfileController extends Controller
         }
 
         $user->password = Hash::make($request->new_password);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
