@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Admin\KategoriController;
-use App\Http\Controllers\Admin\ProdukController;
+use App\Http\Controllers\Admin\categoryController;
+use App\Http\Controllers\Admin\productController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -23,26 +23,26 @@ Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
-// Produk
+// product
 Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::resource('produk', \App\Http\Controllers\Admin\ProdukController::class);
-    Route::resource('kategori', \App\Http\Controllers\Admin\KategoriController::class);
+    Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('category', \App\Http\Controllers\Admin\CategoryController::class);
 });
 
-// Manajemen Admin (Kelola Karyawan)
+// Manajemen Admin (Kelola user)
 Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
-    Route::get('karyawan/log', [\App\Http\Controllers\Admin\KaryawanController::class, 'log'])->name('admin.logs');
+    Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+    Route::get('user/log', [\App\Http\Controllers\Admin\UserController::class, 'log'])->name('admin.logs');
 });
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
-    // Route edit profil
-    Route::get('profil', [\App\Http\Controllers\Admin\ProfilController::class, 'edit'])->name('profil.edit');
-    Route::put('profil', [\App\Http\Controllers\Admin\ProfilController::class, 'update'])->name('profil.update');
+    // Route edit profile
+    Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
 
     // Route ganti password
-    Route::get('profil/password', [\App\Http\Controllers\Admin\ProfilController::class, 'password'])->name('profil.password');
-    Route::put('profil/password', [\App\Http\Controllers\Admin\ProfilController::class, 'updatePassword'])->name('profil.password.update');
+    Route::get('profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'password'])->name('profile.password');
+    Route::put('profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 

@@ -4,7 +4,7 @@
 @section('content')
 <div class="max-w-xl mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-4">Ganti Password</h1>
-    <form method="POST" action="{{ route('profil.password.update') }}">
+    <form method="POST" action="{{ route('profile.password.update') }}">
         @csrf
         @method('PUT')
         <div class="mb-4">

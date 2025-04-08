@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProdukController extends Controller
+class ProductController extends Controller
 {
     public function index()
     {
-        return view('admin.produk.index');
+        return view('admin.product.index');
     }
 
     public function create()
     {
-        return view('admin.produk.create');
+        return view('admin.product.create');
     }
 
     // Tambahkan method lain seperti store, edit, update, destroy sesuai kebutuhan

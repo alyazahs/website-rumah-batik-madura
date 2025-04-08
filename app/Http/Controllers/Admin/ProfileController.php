@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class ProfilController extends Controller
+class ProfileController extends Controller
 {
     public function edit()
     {
         $user = Auth::user();
-        return view('admin.profil.edit', compact('user'));
+        return view('admin.profile.edit', compact('user'));
     }
 
     public function update(Request $request)
@@ -25,12 +25,12 @@ class ProfilController extends Controller
         ]);
         $user->update($request->only('name', 'email'));
 
-        return back()->with('success', 'Profil berhasil diperbarui.');
+        return back()->with('success', 'profile berhasil diperbarui.');
     }
 
     public function password()
     {
-        return view('admin.profil.password');
+        return view('admin.profile.password');
     }
 
     public function updatePassword(Request $request)

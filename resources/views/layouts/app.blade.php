@@ -44,7 +44,7 @@
                 <a href="https://www.instagram.com/rumah.batik.madura" target="_blank" class="hover:text-pink-400 transition">
                     <i class="fab fa-instagram"></i> Instagram
                 </a>
-                <a href="mailto:batikmadurarumah@gmail.com?subject=Pesan dari Website&body=Halo, saya tertarik dengan produk Anda." class="hover:text-red-400 transition">
+                <a href="mailto:batikmadurarumah@gmail.com?subject=Pesan dari Website&body=Halo, saya tertarik dengan product Anda." class="hover:text-red-400 transition">
                     <i class="fas fa-envelope"></i> Email
                 </a>
             </div>

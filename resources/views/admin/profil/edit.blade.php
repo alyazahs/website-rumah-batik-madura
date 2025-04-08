@@ -3,8 +3,8 @@
 
 @section('content')
 <div class="max-w-xl mx-auto mt-10">
-    <h1 class="text-2xl font-bold mb-4">Edit Profil</h1>
-    <form method="POST" action="{{ route('profil.update') }}">
+    <h1 class="text-2xl font-bold mb-4">Edit profile</h1>
+    <form method="POST" action="{{ route('profile.update') }}">
         @csrf
         @method('PUT')
         <div class="mb-4">

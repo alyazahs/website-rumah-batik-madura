@@ -14,12 +14,12 @@
             <p class="text-sm text-green-300">Online</p>
         </div>
         <nav class="space-y-2">
-            <a href="{{ route('produk.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-box mr-2"></i> Produk</a>
-            <a href="{{ route('kategori.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-tags mr-2"></i> Kategori</a>
-            <a href="{{ route('karyawan.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-users-cog mr-2"></i> Admin</a>
+            <a href="{{ route('product.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-box mr-2"></i> product</a>
+            <a href="{{ route('category.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-tags mr-2"></i> category</a>
+            <a href="{{ route('user.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-users-cog mr-2"></i> Admin</a>
             <a href="{{ route('admin.logs') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-history mr-2"></i> Log</a>
-            <a href="{{ route('profil.edit') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-user-edit mr-2"></i> Profil</a>
-            <a href="{{ route('profil.password') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-key mr-2"></i> Password</a>
+            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-user-edit mr-2"></i> profile</a>
+            <a href="{{ route('profile.password') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-key mr-2"></i> Password</a>
         </nav>
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-auto">
             @csrf
