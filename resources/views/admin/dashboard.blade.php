@@ -1,34 +1,37 @@
-@extends('layouts.app')
-@section('content')
-<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 py-12 px-4">
-    <div class="w-full max-w-5xl">
-        <h1 class="text-center mb-8 text-4xl font-extrabold text-gray-800">Dashboard Admin</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @php
-            $cards = [
-                ['title' => 'Produk', 'desc' => 'Kelola produk batik', 'color' => 'bg-gradient-to-r from-blue-600 to-blue-700', 'link' => '#', 'icon' => 'fa fa-shopping-bag'],
-                ['title' => 'Pesanan', 'desc' => 'Kelola pesanan pelanggan', 'color' => 'bg-gradient-to-r from-green-600 to-green-700', 'link' => '#', 'icon' => 'fa fa-clipboard-list'],
-                ['title' => 'Pengguna', 'desc' => 'Kelola akun pengguna', 'color' => 'bg-gradient-to-r from-purple-600 to-purple-700', 'link' => '#', 'icon' => 'fa fa-users']
-            ];
-            @endphp
-
-            @foreach ($cards as $card)
-            <div class="p-6 rounded-2xl shadow-lg text-white {{ $card['color'] }} hover:shadow-2xl transition-transform transform hover:-translate-y-2">
-                <div class="text-center py-6">
-                    <i class="{{ $card['icon'] }} text-3xl mb-4"></i>
-                    <h5 class="text-2xl font-semibold">{{ $card['title'] }}</h5>
-                    <p class="mt-2 text-gray-200">{{ $card['desc'] }}</p>
-                    <a href="{{ $card['link'] }}" class="inline-block mt-4 px-5 py-2 bg-white text-gray-800 font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300">Kelola</a>
-                </div>
-            </div>
-            @endforeach
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- atau sesuaikan dengan setup Tailwind kamu --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-indigo-800 text-white flex flex-col p-4">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold">Admin Panel</h2>
+            <p class="text-sm text-green-300">Online</p>
         </div>
-    </div>
-    <div class="mt-10">
-        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
+        <nav class="space-y-2">
+            <a href="{{ route('produk.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-box mr-2"></i> Produk</a>
+            <a href="{{ route('kategori.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-tags mr-2"></i> Kategori</a>
+            <a href="{{ route('karyawan.index') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-users-cog mr-2"></i> Admin</a>
+            <a href="{{ route('admin.logs') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-history mr-2"></i> Log</a>
+            <a href="{{ route('profil.edit') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-user-edit mr-2"></i> Profil</a>
+            <a href="{{ route('profil.password') }}" class="block px-4 py-2 hover:bg-indigo-600 rounded"><i class="fas fa-key mr-2"></i> Password</a>
+        </nav>
+        <form action="{{ route('admin.logout') }}" method="POST" class="mt-auto">
             @csrf
-            <button type="submit" class="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all duration-300">Logout</button>
+            <button type="submit" class="w-full mt-4 bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white text-center">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
         </form>
-    </div>
-</div>
-@endsection
+    </aside>
+
+    <!-- Content -->
+    <main class="flex-1 p-6 overflow-y-auto">
+        @yield('content')
+    </main>
+</body>
+</html>
