@@ -12,7 +12,10 @@ Route::get('/', function () {
 })->name('home');
 
 // Katalog
-Route::get('/katalog', [BatikController::class, 'index'])->name('katalog');
+Route::get('/katalog', function () {
+    return view('katalog');
+})->name('katalog');
+
 
 // Tentang
 Route::get('/tentang', function () {

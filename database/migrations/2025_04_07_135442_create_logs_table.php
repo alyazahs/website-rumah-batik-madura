@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('website_rbm', function (Blueprint $table) {
-            $table->id();
+        Schema::create('log', function (Blueprint $table) {
+            $table->id('idLog');
+            $table->unsignedBigInteger('user_id');
+            $table->string('information', 120);
+            $table->dateTime('time');
             $table->timestamps();
+    
+            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('website_rbm');
+        Schema::dropIfExists('log');
     }
 };
