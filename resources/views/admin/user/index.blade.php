@@ -4,9 +4,13 @@
 <div class="p-6 space-y-6">
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-800">Admin Management</h1>
-        <button id="openAddModal" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">
-            <i class="fas fa-plus mr-2"></i> Add Admin
-        </button>
+        @auth
+        @if (Auth::user()->level === 'SuperAdmin')
+            <button id="openAddModal" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">
+                <i class="fas fa-plus mr-2"></i> Add Admin
+            </button>
+        @endif
+    @endauth
     </div>
 
     @if ($admins->isEmpty())
@@ -20,7 +24,11 @@
                         <th class="px-6 py-3 font-semibold text-gray-600">Email</th>
                         <th class="px-6 py-3 font-semibold text-gray-600">Role</th>
                         <th class="px-6 py-3 font-semibold text-gray-600">Status</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600 text-center">Actions</th>
+                        @auth
+                            @if (Auth::user()->level === 'SuperAdmin')
+                                <th class="px-6 py-3 font-semibold text-gray-600 text-center">Actions</th>
+                            @endif
+                        @endauth
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -40,16 +48,20 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-3 text-center space-x-2">
-                                <button data-admin='@json($admin)' onclick="openEditModal(this)"
-                                    class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
-                                <form action="{{ route('user.destroy', $admin->id) }}" method="POST"
-                                      class="inline-block"
-                                      onsubmit="return confirm('Are you sure you want to delete this admin?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Delete</button>
-                                </form>
-                            </td>
+                            @auth
+                                @if (Auth::user()->level === 'SuperAdmin')
+                                    <td class="px-6 py-3 text-center space-x-2">
+                                        <button data-admin='@json($admin)' onclick="openEditModal(this)"
+                                            class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
+                                        <form action="{{ route('user.destroy', $admin->id) }}" method="POST"
+                                            class="inline-block"
+                                            onsubmit="return confirm('Are you sure you want to delete this admin?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Delete</button>
+                                        </form>
+                                    </td>
+                                @endif
+                            @endauth
                         </tr>
                     @endforeach
                 </tbody>

@@ -91,10 +91,10 @@
     </div>
 
     <!-- All Modals -->
-    <template x-if="openModal || editModal || openSubModal || editSubModal">
-        <div class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+    <template x-if="openModal || editModal || openSubModal || editSubModal" >
+        <div class="fixed inset-0 bg-black/5 z-50 flex items-center justify-center">
             <!-- Add/Edit Category Modal -->
-            <div x-show="openModal || editModal" x-transition
+            <div x-show="openModal || editModal" x-transition class="animate-fadeIn bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative"
                 class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
                 <h2 class="text-xl font-bold mb-4" x-text="openModal ? 'Add Category' : 'Edit Category'"></h2>
                 <form :action="openModal ? '{{ route('category.store') }}' : '/admin/category/' + editCategory.id"
@@ -140,6 +140,14 @@
             </div>
         </div>
     </template>
-
 </div>
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out;
+    }
+</style>
 @endsection
