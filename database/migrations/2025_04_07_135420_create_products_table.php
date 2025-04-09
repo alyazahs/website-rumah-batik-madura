@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('nameProduct', 50);
             $table->string('description', 512)->nullable();
             $table->integer('price');
-            $table->string('path', 45)->nullable();
-            $table->enum('status', ['active', 'inactive']);
+            $table->string('path', 100)->nullable();
+            $table->enum('status', ['Available', 'Sold']);
             $table->timestamps();
     
             $table->foreign('sub_category_id')->references('idSubCategory')->on('sub_category')->onDelete('cascade');

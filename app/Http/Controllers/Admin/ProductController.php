@@ -12,69 +12,74 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('subCategory')->get();
-        return view('admin.product.index', compact('products'));
+        $products = \App\Models\Product::with(['subCategory.category', 'user'])
+            ->where('user_id', auth::id())
+            ->latest()
+            ->get();
+    
+        $subcategories = \App\Models\SubCategory::with('category')
+            ->where('user_id', auth::id())
+            ->get();
+    
+        return view('admin.product.index', compact('products', 'subcategories'));
     }
-
-    public function create()
-    {
-        $subCategories = SubCategory::all();
-        return view('admin.product.create', compact('subCategories'));
-    }
-
+    
     public function store(Request $request)
     {
         $request->validate([
             'nameProduct' => 'required|string|max:50',
             'description' => 'nullable|string|max:512',
-            'price' => 'required|integer',
+            'price' => 'required|integer|min:0',
             'sub_category_id' => 'required|exists:sub_category,idSubCategory',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:Available,Sold',
+            'path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tambahan validasi gambar
         ]);
-
+    
+        $imagePath = null;
+        if ($request->hasFile('path')) {
+            $imagePath = $request->file('path')->store('products', 'public');
+        }
+    
         Product::create([
-            'user_id' => Auth::id(),
-            'sub_category_id' => $request->sub_category_id,
             'nameProduct' => $request->nameProduct,
             'description' => $request->description,
             'price' => $request->price,
+            'path' => $imagePath,
             'status' => $request->status,
-            'path' => null // jika belum upload gambar
+            'user_id' => auth::id(),
+            'sub_category_id' => $request->sub_category_id,
         ]);
-
-        return redirect()->route('product.index')->with('success', 'Produk berhasil ditambahkan.');
+    
+        return back()->with('success', 'Produk berhasil ditambahkan.');
     }
-
-    public function edit(Product $product)
+    
+    public function update(Request $request, $id)
     {
-        $subCategories = SubCategory::all();
-        return view('admin.product.edit', compact('product', 'subCategories'));
-    }
-
-    public function update(Request $request, Product $product)
-    {
+        $product = Product::findOrFail($id);
+    
         $request->validate([
             'nameProduct' => 'required|string|max:50',
             'description' => 'nullable|string|max:512',
-            'price' => 'required|integer',
+            'price' => 'required|integer|min:0',
             'sub_category_id' => 'required|exists:sub_category,idSubCategory',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:Available,Sold',
+            'path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
+        $imagePath = $product->path;
+        if ($request->hasFile('path')) {
+            $imagePath = $request->file('path')->store('products', 'public');
+        }
+    
         $product->update([
-            'sub_category_id' => $request->sub_category_id,
             'nameProduct' => $request->nameProduct,
             'description' => $request->description,
             'price' => $request->price,
-            'status' => $request->status
+            'path' => $imagePath,
+            'status' => $request->status,
+            'sub_category_id' => $request->sub_category_id,
         ]);
-
-        return redirect()->route('product.index')->with('success', 'Produk berhasil diperbarui.');
+    
+        return back()->with('success', 'Produk berhasil diperbarui.');
     }
-
-    public function destroy(Product $product)
-    {
-        $product->delete();
-        return redirect()->route('product.index')->with('success', 'Produk berhasil dihapus.');
-    }
-}
+}    
