@@ -28,10 +28,5 @@
             </button>
         </form>
     </aside>
-
-    <!-- Content -->
-    <main class="flex-1 p-6 overflow-y-auto">
-        @yield('content')
-    </main>
 </body>
 </html>
