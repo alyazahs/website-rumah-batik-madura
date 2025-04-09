@@ -1,8 +1,7 @@
-@extends('layouts.app')
-@extends('admin.dashboard')
+@extends('layouts.admin')
 
 @section('content')
-<div class="p-6"
+<div class="p-6 space-y-6"
      x-data="{
         openModal: false,
         editModal: false,
@@ -14,119 +13,56 @@
         editSubCategory: { id: '', nameSubCategory: '' },
     }">
 
-    <h1 class="text-2xl font-bold mb-4">Daftar Kategori</h1>
-
-    <!-- Tombol Tambah -->
-    <button @click="openModal = true" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Add Category
-    </button>
-
-    <!-- Modal Tambah Kategori -->
-    <div x-show="openModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md relative">
-            <h2 class="text-xl font-semibold mb-4">Tambah Kategori</h2>
-            <form action="{{ route('category.store') }}" method="POST" class="space-y-4">
-                @csrf
-                <input type="text" name="nameCategory" placeholder="Nama Kategori"
-                    class="w-full border border-gray-300 rounded px-4 py-2" required>
-                <div class="flex justify-end space-x-2">
-                    <button @click="openModal = false" type="button" class="bg-gray-300 px-4 py-2 rounded">Batal</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
-                </div>
-            </form>
-            <button @click="openModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
-        </div>
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold text-gray-800">Category Management</h1>
+        <button @click="openModal = true"
+            class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">
+            <i class="fas fa-plus mr-2"></i> Add Category
+        </button>
     </div>
 
-    <!-- Modal Edit Kategori -->
-    <div x-show="editModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md relative">
-            <h2 class="text-xl font-semibold mb-4">Edit Kategori</h2>
-            <form :action="'/admin/category/' + editCategory.id" method="POST" class="space-y-4">
-                @csrf
-                @method('PUT')
-                <input type="text" name="nameCategory" x-model="editCategory.nameCategory"
-                    class="w-full border border-gray-300 rounded px-4 py-2" required>
-                <div class="flex justify-end space-x-2">
-                    <button @click="editModal = false" type="button" class="bg-gray-300 px-4 py-2 rounded">Batal</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
-                </div>
-            </form>
-            <button @click="editModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
-        </div>
-    </div>
-
-    <!-- Modal Tambah Subkategori -->
-    <div x-show="openSubModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md relative">
-            <h2 class="text-xl font-semibold mb-4">Tambah Subkategori</h2>
-            <form :action="'/admin/subcategory/' + selectedCategoryId" method="POST" class="space-y-4">
-                @csrf
-                <input type="text" name="nameSubCategory" x-model="newSubCategory.nameSubCategory"
-                    placeholder="Nama Subkategori" class="w-full border border-gray-300 rounded px-4 py-2" required>
-                <div class="flex justify-end space-x-2">
-                    <button @click="openSubModal = false" type="button" class="bg-gray-300 px-4 py-2 rounded">Batal</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
-                </div>
-            </form>
-            <button @click="openSubModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
-        </div>
-    </div>
-
-    <!-- Modal Edit Subkategori -->
-    <div x-show="editSubModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md relative">
-            <h2 class="text-xl font-semibold mb-4">Edit Subkategori</h2>
-            <form :action="'/admin/subcategory/update/' + editSubCategory.id" method="POST" class="space-y-4">
-                @csrf
-                @method('PUT')
-                <input type="text" name="nameSubCategory" x-model="editSubCategory.nameSubCategory"
-                    class="w-full border border-gray-300 rounded px-4 py-2" required>
-                <div class="flex justify-end space-x-2">
-                    <button @click="editSubModal = false" type="button" class="bg-gray-300 px-4 py-2 rounded">Batal</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
-                </div>
-            </form>
-            <button @click="editSubModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
-        </div>
-    </div>
-
-    <!-- Tabel Kategori dan Subkategori -->
-    <div class="mt-6 space-y-6">
+    <!-- Category Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($categories as $category)
-            <div class="border rounded p-4 shadow-sm bg-white">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-lg font-semibold">{{ $category->nameCategory }}</h2>
-                        <p class="text-sm text-gray-500">Dibuat: {{ $category->created_at->format('d M Y') }} oleh {{ $category->user->name ?? '-' }}</p>
-                    </div>
-                    <div class="space-x-2">
-                        <button @click="
-                            editCategory.id = '{{ $category->idCategory }}';
-                            editCategory.nameCategory = '{{ $category->nameCategory }}';
-                            editModal = true
-                        " class="text-blue-600 hover:underline">Edit</button>
-                        <button @click="
-                            selectedCategoryId = '{{ $category->idCategory }}';
-                            openSubModal = true
-                        " class="text-green-600 hover:underline">+ Subkategori</button>
-                        <form action="{{ route('category.destroy', $category->idCategory) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus kategori ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                        </form>
-                    </div>
+        <div class="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition duration-300">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800">{{ $category->nameCategory }}</h2>
+                    <p class="text-sm text-gray-500">
+                        Created on {{ $category->created_at->format('M d, Y') }} by {{ $category->user->name ?? '-' }}
+                    </p>
                 </div>
+                <div class="space-x-2">
+                    <button @click="
+                        editCategory.id = '{{ $category->idCategory }}';
+                        editCategory.nameCategory = '{{ $category->nameCategory }}';
+                        editModal = true
+                    " class="text-blue-500 hover:underline text-sm"><i class="fas fa-edit"></i></button>
 
-                <!-- List Subkategori -->
+                    <button @click="
+                        selectedCategoryId = '{{ $category->idCategory }}';
+                        openSubModal = true
+                    " class="text-green-500 hover:underline text-sm"><i class="fas fa-plus"></i></button>
+
+                    <form action="{{ route('category.destroy', $category->idCategory) }}" method="POST"
+                        class="inline-block" onsubmit="return confirm('Delete this category?')">
+                        @csrf @method('DELETE')
+                        <button class="text-red-500 hover:underline text-sm"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Subcategories -->
+            <div class="mt-4">
                 @if ($category->subCategories->count())
-                    <ul class="mt-4 list-disc list-inside text-gray-700">
-                        @foreach ($category->subCategories as $sub)
-                        <li class="flex justify-between items-start" x-data="{ deleted: false }" x-show="!deleted">
+                <ul class="space-y-2">
+                    @foreach ($category->subCategories as $sub)
+                    <li class="flex justify-between items-start bg-gray-50 px-3 py-2 rounded" x-data="{ deleted: false }"
+                        x-show="!deleted">
                         <div>
-                            <p>{{ $sub->nameSubCategory }}</p>
-                            <p class="text-sm text-gray-500">
-                                Dibuat: {{ $sub->created_at->format('d M Y') }} oleh {{ $sub->user->name ?? '-' }}
+                            <p class="text-sm font-medium text-gray-700">{{ $sub->nameSubCategory }}</p>
+                            <p class="text-xs text-gray-500">
+                                Created on {{ $sub->created_at->format('M d, Y') }} by {{ $sub->user->name ?? '-' }}
                             </p>
                         </div>
                         <div class="space-x-2">
@@ -134,32 +70,76 @@
                                 editSubCategory.id = '{{ $sub->idSubCategory }}';
                                 editSubCategory.nameSubCategory = '{{ $sub->nameSubCategory }}';
                                 editSubModal = true
-                            " class="text-blue-500 hover:underline text-sm">Edit</button>
+                            " class="text-blue-500 hover:underline text-xs"><i class="fas fa-edit"></i></button>
 
-                            <form 
-                                action="{{ route('subcategory.destroy', $sub->idSubCategory) }}" 
-                                method="POST" 
-                                class="inline"
-                                @submit.prevent="
-                                    if(confirm('Hapus subkategori ini?')) {
-                                        $event.target.submit();
-                                        deleted = true;
-                                    }
-                                "
-                            >
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-500 hover:underline text-sm">Delete</button>
+                            <form action="{{ route('subcategory.destroy', $sub->idSubCategory) }}" method="POST"
+                                @submit.prevent="if(confirm('Delete this subcategory?')) { $event.target.submit(); deleted = true; }"
+                                class="inline">
+                                @csrf @method('DELETE')
+                                <button class="text-red-500 hover:underline text-xs"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </li>
-                        @endforeach
-                    </ul>
+                    @endforeach
+                </ul>
                 @else
-                    <p class="text-sm text-gray-500 mt-2">Belum ada subkategori.</p>
+                <p class="text-sm text-gray-400">No subcategories.</p>
                 @endif
             </div>
+        </div>
         @endforeach
     </div>
+
+    <!-- All Modals -->
+    <template x-if="openModal || editModal || openSubModal || editSubModal">
+        <div class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+            <!-- Add/Edit Category Modal -->
+            <div x-show="openModal || editModal" x-transition
+                class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+                <h2 class="text-xl font-bold mb-4" x-text="openModal ? 'Add Category' : 'Edit Category'"></h2>
+                <form :action="openModal ? '{{ route('category.store') }}' : '/admin/category/' + editCategory.id"
+                    method="POST" class="space-y-4">
+                    @csrf
+                    <template x-if="editModal">
+                        <input type="hidden" name="_method" value="PUT" />
+                    </template>
+                    <input type="text" name="nameCategory" x-model="openModal ? null : editCategory.nameCategory"
+                        :value="openModal ? '' : undefined"
+                        placeholder="Category Name"
+                        class="w-full border border-gray-300 rounded px-4 py-2" required>
+                    <div class="flex justify-end gap-2">
+                        <button @click="openModal = false; editModal = false" type="button"
+                            class="bg-gray-200 px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+                    </div>
+                </form>
+                <button @click="openModal = false; editModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
+            </div>
+
+            <!-- Add/Edit Subcategory Modal -->
+            <div x-show="openSubModal || editSubModal" x-transition
+                class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+                <h2 class="text-xl font-bold mb-4" x-text="openSubModal ? 'Add Subcategory' : 'Edit Subcategory'"></h2>
+                <form :action="openSubModal ? '/admin/subcategory/' + selectedCategoryId : '/admin/subcategory/update/' + editSubCategory.id"
+                    method="POST" class="space-y-4">
+                    @csrf
+                    <template x-if="editSubModal">
+                        <input type="hidden" name="_method" value="PUT" />
+                    </template>
+                    <input type="text" name="nameSubCategory"
+                        x-model="openSubModal ? newSubCategory.nameSubCategory : editSubCategory.nameSubCategory"
+                        placeholder="Subcategory Name"
+                        class="w-full border border-gray-300 rounded px-4 py-2" required>
+                    <div class="flex justify-end gap-2">
+                        <button @click="openSubModal = false; editSubModal = false" type="button"
+                            class="bg-gray-200 px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+                    </div>
+                </form>
+                <button @click="openSubModal = false; editSubModal = false" class="absolute top-2 right-2 text-gray-500">✕</button>
+            </div>
+        </div>
+    </template>
+
 </div>
 @endsection

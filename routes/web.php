@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -42,7 +43,7 @@ Route::middleware(['guest.admin'])->group(function () {
 
 // Admin Dashboard & Logout (butuh auth:admin)
 Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::match(['get', 'post'], '/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     // Lupa Password Admin
@@ -71,7 +72,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
 
     // User management
     Route::resource('user', UserController::class);
-    Route::get('user/log', [UserController::class, 'log'])->name('admin.logs');
+    Route::get('log', [UserController::class, 'log'])->name('admin.log');
 
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');

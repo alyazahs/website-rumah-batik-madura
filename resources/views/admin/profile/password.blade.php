@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@extends('admin.dashboard')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-xl mx-auto mt-10">
