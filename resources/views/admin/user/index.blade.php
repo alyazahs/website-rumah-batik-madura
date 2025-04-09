@@ -51,9 +51,8 @@
     <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
             <h2 class="text-xl font-bold mb-4" id="modalTitle">Tambah Admin</h2>
-            <form id="userForm" method="POST">
+            <form id="userForm" method="POST" action="{{ route('user.store') }}">
                 @csrf
-                <input type="hidden" name="_method" value="PUT"> <!-- Tambahkan ini -->
                 <input type="hidden" id="userId" name="id">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium">Nama</label>
@@ -65,7 +64,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium">Password</label>
-                    <input type="password" id="password" name="password" class="w-full border rounded p-2">
+                    <input type="password" id="password" name="password" class="w-full border rounded p-2" required>
                 </div>
                 <div class="mb-4">
                     <label for="level" class="block text-sm font-medium">Level</label>
@@ -94,7 +93,7 @@
     // Fungsi untuk membuka modal tambah user
     document.getElementById('openAddModal').addEventListener('click', function () {
         document.getElementById('modalTitle').innerText = 'Tambah Admin';
-        document.getElementById('userForm').action = "{{ route('user.store') }}";
+        document.getElementById('userForm').action = "{{ route('user.store') }}"; // Rute untuk store
         document.getElementById('userId').value = '';
         document.getElementById('name').value = '';
         document.getElementById('email').value = '';
