@@ -72,7 +72,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
 
     // User management
     Route::resource('user', UserController::class);
-    Route::get('log', [UserController::class, 'log'])->name('admin.log');
+    Route::get('log', [UserController::class, 'log'])->name('admin.logs');
 
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
