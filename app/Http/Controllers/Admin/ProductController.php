@@ -13,12 +13,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = \App\Models\Product::with(['subCategory.category', 'user'])
-            ->where('user_id', auth::id())
             ->latest()
             ->get();
     
         $subcategories = \App\Models\SubCategory::with('category')
-            ->where('user_id', auth::id())
             ->get();
     
         return view('admin.product.index', compact('products', 'subcategories'));

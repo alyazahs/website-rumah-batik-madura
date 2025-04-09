@@ -11,8 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(['subCategories.user', 'user']) // eager loading
-            ->where('user_id', auth::id())
+        $categories = Category::with(['subCategories.user', 'user']) 
             ->latest()
             ->get();
     
