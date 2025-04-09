@@ -10,56 +10,74 @@
         </button>
     </div>
 
-    <!-- Modal -->
-    <div x-show="modalOpen" x-cloak
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-all duration-300">
-        <div @click.outside="closeModal"
-            class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-xl relative animate-fade-in">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800" x-text="editMode ? 'Edit Product' : 'Add Product'"></h2>
-            <form :action="formAction" method="POST" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <template x-if="editMode">
-                    <input type="hidden" name="_method" value="PUT">
-                </template>
+        <!-- Modal -->
+        <div id="productModal" x-show="modalOpen" x-cloak
+    class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+    <div @click.outside="closeModal"
+        class="bg-white w-full max-w-xl rounded-xl shadow-lg p-6 relative animate-fadeIn overflow-y-auto max-h-[90vh]">
+        
+        <!-- Tombol Close (pojok kanan atas) -->
+        <button @click="closeModal"
+            class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl font-bold">&times;</button>
 
+        <!-- Modal Header -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-gray-800" x-text="editMode ? 'Edit Product' : 'Add Product'"></h2>
+        </div>
+
+        <!-- Modal Form -->
+        <form :action="formAction" method="POST" enctype="multipart/form-data" class="space-y-5">
+            @csrf
+            <template x-if="editMode">
+                <input type="hidden" name="_method" value="PUT">
+            </template>
+
+            <!-- Group: Basic Info -->
+            <div class="grid gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
                     <input type="text" name="nameProduct" x-model="form.nameProduct"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                     <textarea name="description" x-model="form.description"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         rows="3"></textarea>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
                     <input type="number" name="price" x-model="form.price"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
+            </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
-                    <input type="file" name="path" @change="previewImage($event)"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <template x-if="preview">
-                        <img :src="preview" alt="Preview" class="mt-2 w-32 h-32 object-cover rounded-lg border">
-                    </template>
-                </div>
+            <!-- Group: Media -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                <input type="file" name="path" @change="previewImage($event)"
+                    class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <template x-if="preview">
+                    <img :src="preview" alt="Preview" class="mt-2 w-32 h-32 object-cover rounded-lg border">
+                </template>
+            </div>
 
+            <!-- Group: Selects -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
                     <select name="sub_category_id" x-model="form.sub_category_id"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                         <option value="">Select Subcategory</option>
                         @foreach ($subcategories as $sub)
-                            <option value="{{ $sub->idSubCategory }}">{{ $sub->category->nameCategory }} - {{ $sub->nameSubCategory }}</option>
+                            <option value="{{ $sub->idSubCategory }}">
+                                {{ $sub->category->nameCategory }} - {{ $sub->nameSubCategory }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -67,24 +85,39 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                     <select name="status" x-model="form.status"
-                        class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                         <option value="Available">Available</option>
                         <option value="Sold">Sold</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="flex justify-end gap-2 pt-4">
-                    <button type="button" @click="closeModal"
-                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition">Cancel</button>
-                    <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition">Save</button>
-                </div>
-            </form>
-            <button @click="closeModal"
-                class="absolute top-3 right-3 text-gray-500 text-xl hover:text-gray-700 transition">×</button>
-        </div>
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" @click="closeModal"
+                    class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow transition">
+                    Save
+                </button>
+            </div>
+        </form>
     </div>
+</div>
+
+<!-- Fade In Animation -->
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out;
+    }
+</style>
 
     <!-- Table -->
     <div class="bg-white shadow-md rounded-xl overflow-x-auto">

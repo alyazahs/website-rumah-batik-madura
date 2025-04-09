@@ -2,26 +2,25 @@
 
 @section('content')
 <div class="p-6 space-y-6">
-
     <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-800">Manajemen Admin</h1>
+        <h1 class="text-3xl font-bold text-gray-800">Admin Management</h1>
         <button id="openAddModal" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">
-            <i class="fas fa-plus mr-2"></i> Tambah Admin
+            <i class="fas fa-plus mr-2"></i> Add Admin
         </button>
     </div>
 
     @if ($admins->isEmpty())
-        <div class="text-gray-600 text-center mt-10">Belum ada admin yang ditambahkan.</div>
+        <div class="text-gray-600 text-center mt-10">No admin users have been added yet.</div>
     @else
-        <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <div class="overflow-x-auto bg-white rounded-xl shadow">
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-100 text-left">
                     <tr>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Nama</th>
+                        <th class="px-6 py-3 font-semibold text-gray-600">Name</th>
                         <th class="px-6 py-3 font-semibold text-gray-600">Email</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Level</th>
+                        <th class="px-6 py-3 font-semibold text-gray-600">Role</th>
                         <th class="px-6 py-3 font-semibold text-gray-600">Status</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600 text-center">Aksi</th>
+                        <th class="px-6 py-3 font-semibold text-gray-600 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -33,11 +32,11 @@
                             <td class="px-6 py-3">
                                 @if($admin->status === 'Active')
                                     <span class="bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-full">
-                                        Available
+                                        Active
                                     </span>
                                 @else
                                     <span class="bg-red-100 text-red-700 text-sm font-semibold px-3 py-1 rounded-full">
-                                        Non Active
+                                        Inactive
                                     </span>
                                 @endif
                             </td>
@@ -46,9 +45,9 @@
                                     class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
                                 <form action="{{ route('user.destroy', $admin->id) }}" method="POST"
                                       class="inline-block"
-                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
+                                      onsubmit="return confirm('Are you sure you want to delete this admin?')">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                    <button type="submit" class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -61,41 +60,47 @@
     <!-- Modal -->
     <div id="userModal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
         <div class="bg-white w-full max-w-xl rounded-xl shadow-lg p-6 relative animate-fadeIn">
-            <h2 id="modalTitle" class="text-xl font-bold mb-4">Tambah Admin</h2>
+            <h2 id="modalTitle" class="text-xl font-bold mb-4">Add Admin</h2>
             <form id="userForm" method="POST" action="{{ route('user.store') }}" class="space-y-4">
                 @csrf
                 <input type="hidden" id="userId" name="id">
+
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                     <input type="text" id="name" name="name" class="w-full border rounded px-4 py-2 mt-1" required>
                 </div>
+
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" id="email" name="email" class="w-full border rounded px-4 py-2 mt-1" required>
                 </div>
-                <div>
+
+                <div id="passwordField">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password" name="password" class="w-full border rounded px-4 py-2 mt-1">
                 </div>
+
                 <div>
-                    <label for="level" class="block text-sm font-medium text-gray-700">Level</label>
+                    <label for="level" class="block text-sm font-medium text-gray-700">Role</label>
                     <select id="level" name="level" class="w-full border rounded px-4 py-2 mt-1" required>
                         <option value="Admin">Admin</option>
                         <option value="SuperAdmin">Super Admin</option>
                     </select>
                 </div>
+
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                     <select id="status" name="status" class="w-full border rounded px-4 py-2 mt-1" required>
-                        <option value="Active">Aktif</option>
-                        <option value="NonActive">Tidak Aktif</option>
+                        <option value="Active">Active</option>
+                        <option value="NonActive">Inactive</option>
                     </select>
                 </div>
+
                 <div class="flex justify-end pt-4 space-x-2">
                     <button type="button" onclick="closeModal()"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Batal</button>
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Cancel</button>
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Simpan</button>
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Save</button>
                 </div>
             </form>
             <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl">×</button>
@@ -114,9 +119,8 @@
 </style>
 
 <script>
-    // Buka modal tambah
     document.getElementById('openAddModal').addEventListener('click', function () {
-        document.getElementById('modalTitle').innerText = 'Tambah Admin';
+        document.getElementById('modalTitle').innerText = 'Add Admin';
         document.getElementById('userForm').action = "{{ route('user.store') }}";
         document.getElementById('userId').value = '';
         document.getElementById('name').value = '';
@@ -125,9 +129,12 @@
         document.getElementById('level').value = 'Admin';
         document.getElementById('status').value = 'Active';
         document.getElementById('userModal').classList.remove('hidden');
+        document.getElementById('passwordField').classList.remove('hidden');
+
+        const existingMethod = document.getElementById('methodField');
+        if (existingMethod) existingMethod.remove();
     });
 
-    // Buka modal edit
     window.openEditModal = function (button) {
         const admin = JSON.parse(button.getAttribute('data-admin'));
         document.getElementById('modalTitle').innerText = 'Edit Admin';
@@ -139,9 +146,18 @@
         document.getElementById('level').value = admin.level;
         document.getElementById('status').value = admin.status;
         document.getElementById('userModal').classList.remove('hidden');
+        document.getElementById('passwordField').classList.add('hidden');
+
+        if (!document.getElementById('methodField')) {
+            const methodField = document.createElement('input');
+            methodField.type = 'hidden';
+            methodField.name = '_method';
+            methodField.value = 'PUT';
+            methodField.id = 'methodField';
+            document.getElementById('userForm').appendChild(methodField);
+        }
     }
 
-    // Tutup modal
     function closeModal() {
         document.getElementById('userModal').classList.add('hidden');
     }
