@@ -7,6 +7,8 @@
     @vite('resources/css/app.css')
     <script src="{{ asset('js/menu.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </head>
 <body class="bg-gray-100 font-sans min-h-screen flex flex-col">
 
