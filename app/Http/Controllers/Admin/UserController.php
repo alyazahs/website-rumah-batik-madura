@@ -23,40 +23,49 @@ class UserController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|max:45',
         'email' => 'required|email|unique:user,email',
         'password' => 'required|min:6',
+        'level' => 'required|in:Admin,SuperAdmin',
+        'status' => 'required|in:Active,NonActive',
     ]);
 
     User::create([
         'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
+        'level' => $request->level,
+        'status' => $request->status,
     ]);
 
     return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
 }
 
-    public function edit(User $user)
-    {
-        return view('admin.user.edit', compact('user')); // Tampilkan form edit user
+public function update(Request $request, User $user)
+{
+    $request->validate([
+        'name' => 'required|string|max:45',
+        'email' => 'required|email|unique:user,email,' . $user->id,
+        'password' => 'nullable|min:6', // Password opsional saat edit
+        'level' => 'required|in:Admin,SuperAdmin',
+        'status' => 'required|in:Active,NonActive',
+    ]);
+
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'level' => $request->level,
+        'status' => $request->status,
+    ];
+
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->password);
     }
 
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email,' . $user->id,
-        ]);
+    $user->update($data);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
-    }
-
+    return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
+}
     public function destroy(User $user)
     {
         $user->delete();
