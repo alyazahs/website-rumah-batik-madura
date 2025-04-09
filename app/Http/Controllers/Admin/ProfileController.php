@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class ProfileController extends Controller
@@ -21,14 +22,32 @@ class ProfileController extends Controller
         $user = Auth::user();
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+    
+        $data = $request->only('name', 'email');
+    
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('profile', $photo, $filename);
+    
+            // Hapus foto lama kalau ada
+            if ($user->path) {
+                Storage::delete('public/profile/' . $user->path);
+            }
+    
+            $data['path'] = $filename;
+        }
+    
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $user->update($request->only('name', 'email'));
-
-        return back()->with('success', 'profile berhasil diperbarui.');
+        $user->update($data);
+    
+        return back()->with('success', 'Profile berhasil diperbarui.');
     }
+    
 
     public function password()
     {

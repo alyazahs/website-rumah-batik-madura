@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password', 225);
             $table->enum('level', ['SuperAdmin', 'Admin'])->default('Admin');
             $table->enum('status', ['Active', 'NonActive'])->default('Active');
+            $table->string('path', 100)->nullable();
             $table->timestamps();
         });
     }

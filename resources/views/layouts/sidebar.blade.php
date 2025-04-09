@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- atau sesuaikan dengan setup Tailwind kamu --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="flex h-screen bg-gray-100">
-    <aside class="w-64 bg-indigo-800 text-white flex flex-col p-4 min-h-screen" x-data>
-        {{-- Profil --}}
-        <div class="flex flex-col items-center mb-6">
-            <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="Profile" class="w-16 h-16 rounded-full mb-2">
-            <h2 class="text-xl font-semibold">{{ Auth::user()->name }}</h2>
-            <p class="text-sm text-green-300">{{ Auth::user()->level }}</p>
-        </div>
+<aside class="w-64 bg-indigo-800 text-white flex flex-col p-4 min-h-screen space-y-4" x-data>
+    {{-- Logo / Brand --}}
+    <div class="flex items-center space-x-2 mb-4">
+        {{-- Pakai FontAwesome jika tidak ada logo --}}
+        <i class="fas fa-leaf text-xl"></i>
+        <span class="text-white text-lg font-semibold">Profile</span>
+    </div>
+
+    {{-- Profil --}}
+    <div class="flex flex-col items-center mb-6">
+        <img src="{{ Auth::user()->path ? asset('storage/profile/' . Auth::user()->path) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}" 
+            alt="Profile" 
+            class="w-16 h-16 rounded-full mb-2 object-cover">
+        <h2 class="text-xl font-semibold">{{ Auth::user()->name }}</h2>
+        <p class="text-sm text-green-300">{{ Auth::user()->level }}</p>
+    </div>
 
         {{-- Navigasi --}}
         <nav class="space-y-2 text-sm">
