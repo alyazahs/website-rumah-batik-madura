@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\Log;
 
 class ProfileController extends Controller
 {
@@ -33,7 +34,6 @@ class ProfileController extends Controller
             $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('profile', $photo, $filename);
     
-            // Hapus foto lama kalau ada
             if ($user->path) {
                 Storage::delete('public/profile/' . $user->path);
             }
@@ -44,6 +44,12 @@ class ProfileController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $user->update($data);
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'information' => 'edited a profile',
+            'time' => now(),
+        ]);
     
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
@@ -71,6 +77,11 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->update([
             'password' => Hash::make($request->new_password),
+        ]);
+        Log::create([
+            'user_id' => Auth::id(),
+            'information' => 'edited a password',
+            'time' => now(),
         ]);
 
         return back()->with('success', 'Password berhasil diubah.');

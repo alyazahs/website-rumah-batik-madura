@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Log;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class ProductController extends Controller
             $imagePath = $request->file('path')->store('products', 'public');
         }
     
-        Product::create([
+        $product = Product::create([
             'nameProduct' => $request->nameProduct,
             'description' => $request->description,
             'price' => $request->price,
@@ -47,6 +48,12 @@ class ProductController extends Controller
             'user_id' => auth::id(),
             'sub_category_id' => $request->sub_category_id,
         ]);
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'information' => 'added a new product: ' . $product->nameProduct,
+            'time' => now(),
+        ]);
     
         return back()->with('success', 'Produk berhasil ditambahkan.');
     }
@@ -54,6 +61,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+        $oldName = $product->nameProduct;
     
         $request->validate([
             'nameProduct' => 'required|string|max:50',
@@ -77,7 +85,28 @@ class ProductController extends Controller
             'status' => $request->status,
             'sub_category_id' => $request->sub_category_id,
         ]);
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'information' => 'edited a product: ' . $oldName . ' menjadi ' . $product->nameProduct,
+            'time' => now(),
+        ]);
     
         return back()->with('success', 'Produk berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $productName = $product->nameProduct;
+        $product->delete();
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'information' => 'deleted a : ' . $productName,
+            'time' => now(),
+        ]);
+
+        return back()->with('success', 'Produk berhasil dihapus.');
     }
 }    
