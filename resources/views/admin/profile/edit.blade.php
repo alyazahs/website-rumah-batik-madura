@@ -1,46 +1,93 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-6 text-gray-800">Edit Profile</h1>
+<div class="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-xl overflow-hidden">
+    <div class="bg-indigo-500 py-4 px-6">
+        <h1 class="text-xl font-semibold text-white text-center">Your Profile</h1>
+    </div>
 
-    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+    <div class="p-6" id="profileInfo">
+        <div class="flex justify-center mb-4">
+            <img src="{{ $user->path ? asset('storage/profile/'.$user->path) : 'https://via.placeholder.com/100' }}"
+                alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-300 shadow-md">
+        </div>
+
+        <div class="mb-4">
+            <label class="block font-medium text-gray-700">Nama:</label>
+            <p class="text-gray-800 font-semibold">{{ $user->name }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="block font-medium text-gray-700">Email:</label>
+            <p class="text-gray-800 font-semibold">{{ $user->email }}</p>
+        </div>
+
+        <div class="mt-6">
+            <button onclick="toggleEdit(true)"
+                class="w-full bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">
+                <i class="fas fa-edit mr-2"></i> Edit Profile
+            </button>
+        </div>
+    </div>
+
+    <form id="editProfileForm" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data"
+        class="hidden p-6">
         @csrf
         @method('PUT')
 
         <div class="mb-4">
-            <label class="block font-medium mb-1">Nama</label>
-            <input type="text" name="name" value="{{ old('name', $user->name) }}"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+            <label for="name" class="block font-medium text-gray-700">Nama</label>
+            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
         </div>
 
         <div class="mb-4">
-            <label class="block font-medium mb-1">Email</label>
-            <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400">
+            <label for="email" class="block font-medium text-gray-700">Email</label>
+            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
         </div>
 
         <div class="mb-4">
-            <label class="block font-medium mb-1">Foto Profil</label>
-            <input type="file" name="photo" id="photo"
-                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                file:rounded file:border-0 file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" onchange="previewPhoto()">
+            <label for="photo" class="block font-medium text-gray-700">Foto Profil</label>
+            <input type="file" id="photo" name="photo"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                onchange="previewPhoto()">
         </div>
 
         <div class="mb-4">
-            <label class="block font-medium mb-1 text-gray-700">Preview Foto:</label>
-            <img id="photoPreview" src="{{ $user->path ? asset('storage/profile/'.$user->path) : 'https://via.placeholder.com/100' }}" class="w-24 h-24 rounded-full object-cover border" alt="Foto Profil">
+            <label class="block font-medium text-gray-700">Preview Foto:</label>
+            <img id="photoPreview"
+                src="{{ $user->path ? asset('storage/profile/'.$user->path) : 'https://via.placeholder.com/100' }}"
+                alt="Foto Profil" class="w-20 h-20 rounded-full object-cover border border-indigo-300 shadow-sm">
         </div>
 
-        <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition duration-200">
-            Simpan
-        </button>
+        <div class="flex justify-end gap-2">
+            <button type="button" onclick="toggleEdit(false)"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">
+                <i class="fas fa-times mr-2"></i> Batal
+            </button>
+            <button type="submit"
+                class="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">
+                <i class="fas fa-save mr-2"></i> Simpan
+            </button>
+        </div>
     </form>
 </div>
 
 <script>
+    const profileInfo = document.getElementById('profileInfo');
+    const editProfileForm = document.getElementById('editProfileForm');
+
+    function toggleEdit(isEditing) {
+        if (isEditing) {
+            profileInfo.classList.add('hidden');
+            editProfileForm.classList.remove('hidden');
+        } else {
+            profileInfo.classList.remove('hidden');
+            editProfileForm.classList.add('hidden');
+        }
+    }
+
     function previewPhoto() {
         const input = document.getElementById('photo');
         const preview = document.getElementById('photoPreview');

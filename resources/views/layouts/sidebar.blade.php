@@ -13,9 +13,8 @@
     <aside class="w-64 bg-indigo-800 text-white flex flex-col p-4 min-h-screen space-y-4" x-data>
         {{-- Logo / Brand --}}
         <div class="flex items-center space-x-2 mb-4">
-            {{-- Pakai FontAwesome jika tidak ada logo --}}
-            <i class="fas fa-leaf text-xl"></i>
-            <span class="text-white text-lg font-semibold">Profile</span>
+            <i class="fa-solid fa-store"></i>
+            <span class="text-white text-lg font-semibold">RBM</span>
         </div>
 
         {{-- Profil --}}

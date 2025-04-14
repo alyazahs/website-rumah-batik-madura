@@ -11,15 +11,26 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = \App\Models\Product::with(['subCategory.category', 'user'])
+        $search = $request->input('search');
+        $products = Product::with(['subCategory.category', 'user'])
             ->latest()
+            ->when($search, function ($query) use ($search) {
+                return $query->where('nameProduct', 'like', "%{$search}%")
+                             ->orWhere('description', 'like', "%{$search}%")
+                             ->orWhereHas('subCategory', function ($subQuery) use ($search) {
+                                 $subQuery->where('nameSubCategory', 'like', "%{$search}%")
+                                          ->orWhereHas('category', function ($catQuery) use ($search) {
+                                              $catQuery->where('nameCategory', 'like', "%{$search}%");
+                                          });
+                             });
+            })
+            ->paginate(10); // Tetap menggunakan pagination
+
+        $subcategories = SubCategory::with('category')
             ->get();
-    
-        $subcategories = \App\Models\SubCategory::with('category')
-            ->get();
-    
+
         return view('admin.product.index', compact('products', 'subcategories'));
     }
     
