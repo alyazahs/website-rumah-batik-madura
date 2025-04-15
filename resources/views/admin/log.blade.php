@@ -25,13 +25,13 @@
                     @foreach ($logs as $log)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ $log->user->name ?? 'System' }}
+                                {{ $log->causer->name ?? 'System' }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                {{ $log->information }}
+                                {{ $log->description }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $log->time }}
+                                {{ $log->created_at->format('Y-m-d H:i:s') }}
                             </td>
                         </tr>
                     @endforeach

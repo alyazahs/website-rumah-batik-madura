@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Spatie\Activitylog\Models\Activity;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
@@ -15,7 +16,12 @@ class DashboardController extends Controller
         $totalProduct = Product::count();
         $totalUser = User::count();
         $totalCategory = Category::count();
-        $log = Log::with('user')->latest()->take(5)->get();
+
+        // Mengambil log aktivitas terbaru
+        $log = Activity::with('causer') // Relasi dengan user yang menyebabkan aktivitas
+            ->latest()
+            ->limit(5)
+            ->get();
 
         return view('admin.dashboard', compact('totalProduct', 'totalUser', 'totalCategory', 'log'));
     }

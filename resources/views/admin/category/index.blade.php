@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="p-6 space-y-6"
-     x-data="{
+    x-data="{
         openModal: false,
         editModal: false,
         openSubModal: false,
@@ -17,7 +17,7 @@
         <h1 class="text-3xl font-bold text-gray-800">Category Management</h1>
         <button @click="openModal = true"
             class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">
-            <i class="fas fa-plus mr-2"></i> Add Category
+            <i class="fas fa-plus mr-2 text-lg"></i> Add Category
         </button>
     </div>
 
@@ -32,22 +32,22 @@
                         Created on {{ $category->created_at->format('M d, Y') }} by {{ $category->user->name ?? '-' }}
                     </p>
                 </div>
-                <div class="space-x-2">
+                <div class="space-x-4 flex items-center">
                     <button @click="
                         editCategory.id = '{{ $category->idCategory }}';
                         editCategory.nameCategory = '{{ $category->nameCategory }}';
                         editModal = true
-                    " class="text-blue-500 hover:underline text-sm"><i class="fas fa-edit"></i></button>
+                    " class="text-blue-500 hover:underline text-lg p-2" title="Edit Category"><i class="fas fa-edit text-xl"></i></button>
 
                     <button @click="
                         selectedCategoryId = '{{ $category->idCategory }}';
                         openSubModal = true
-                    " class="text-green-500 hover:underline text-sm"><i class="fas fa-plus"></i></button>
+                    " class="text-green-500 hover:underline text-lg p-2" title="Add Subcategory"><i class="fas fa-plus text-xl"></i></button>
 
                     <form action="{{ route('category.destroy', $category->idCategory) }}" method="POST"
                         class="inline-block" onsubmit="return confirm('Delete this category?')">
                         @csrf @method('DELETE')
-                        <button class="text-red-500 hover:underline text-sm"><i class="fas fa-trash"></i></button>
+                        <button class="text-red-500 hover:underline text-lg p-2" title="Delete Category"><i class="fas fa-trash text-xl"></i></button>
                     </form>
                 </div>
             </div>
@@ -57,26 +57,26 @@
                 @if ($category->subCategories->count())
                 <ul class="space-y-2">
                     @foreach ($category->subCategories as $sub)
-                    <li class="flex justify-between items-start bg-gray-50 px-3 py-2 rounded" x-data="{ deleted: false }"
+                    <li class="flex justify-between items-start bg-gray-200 px-3 py-3 rounded" x-data="{ deleted: false }"
                         x-show="!deleted">
                         <div>
-                            <p class="text-sm font-medium text-gray-700">{{ $sub->nameSubCategory }}</p>
-                            <p class="text-xs text-gray-500">
+                            <p class="text-sm font-medium text-gray-800">{{ $sub->nameSubCategory }}</p>
+                            <p class="text-xs text-gray-600">
                                 Created on {{ $sub->created_at->format('M d, Y') }} by {{ $sub->user->name ?? '-' }}
                             </p>
                         </div>
-                        <div class="space-x-2">
+                        <div class="space-x-4 flex items-center">
                             <button @click="
                                 editSubCategory.id = '{{ $sub->idSubCategory }}';
                                 editSubCategory.nameSubCategory = '{{ $sub->nameSubCategory }}';
                                 editSubModal = true
-                            " class="text-blue-500 hover:underline text-xs"><i class="fas fa-edit"></i></button>
+                            " class="text-blue-500 hover:underline text-lg p-2" title="Edit Subcategory"><i class="fas fa-edit"></i></button>
 
                             <form action="{{ route('subcategory.destroy', $sub->idSubCategory) }}" method="POST"
                                 @submit.prevent="if(confirm('Delete this subcategory?')) { $event.target.submit(); deleted = true; }"
                                 class="inline">
                                 @csrf @method('DELETE')
-                                <button class="text-red-500 hover:underline text-xs"><i class="fas fa-trash"></i></button>
+                                <button class="text-red-500 hover:underline text-lg p-2" title="Delete Subcategory"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </li>
@@ -91,11 +91,10 @@
     </div>
 
     <!-- All Modals -->
-    <template x-if="openModal || editModal || openSubModal || editSubModal" >
+    <template x-if="openModal || editModal || openSubModal || editSubModal">
         <div class="fixed inset-0 bg-black/5 z-50 flex items-center justify-center">
             <!-- Add/Edit Category Modal -->
-            <div x-show="openModal || editModal" x-transition class="animate-fadeIn bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative"
-                class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+            <div x-show="openModal || editModal" x-transition class="animate-fadeIn bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
                 <h2 class="text-xl font-bold mb-4" x-text="openModal ? 'Add Category' : 'Edit Category'"></h2>
                 <form :action="openModal ? '{{ route('category.store') }}' : '/admin/category/' + editCategory.id"
                     method="POST" class="space-y-4">
@@ -141,11 +140,20 @@
         </div>
     </template>
 </div>
+
 <style>
     @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
+
     .animate-fadeIn {
         animation: fadeIn 0.2s ease-out;
     }

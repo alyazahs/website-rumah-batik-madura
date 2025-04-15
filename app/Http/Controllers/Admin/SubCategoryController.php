@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class SubCategoryController extends Controller
 {
@@ -23,13 +23,13 @@ class SubCategoryController extends Controller
             'category_id' => $category_id,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'added a new subkategory: ' . $subCategory->nameSubCategory . ' di kategori ID ' . $category_id,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($subCategory)
+            ->log('Added a new subcategory: ' . $subCategory->nameSubCategory . ' in category ID ' . $category_id);
     
-        return back()->with('success', 'Subcategori berhasil ditambahkan.');
+        return back()->with('success', 'Subkategori berhasil ditambahkan.');
     }    
 
     public function update(Request $request, Category $category, SubCategory $subcategory)
@@ -43,11 +43,11 @@ class SubCategoryController extends Controller
             'nameSubCategory' => $request->nameSubCategory,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a subcategory: ' . $oldName . ' menjadi ' . $subcategory->nameSubCategory . ' di kategori ID ' . $subcategory->category_id,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($subcategory)
+            ->log('Edited a subcategory: ' . $oldName . ' menjadi ' . $subcategory->nameSubCategory . ' in category ID ' . $subcategory->category_id);
 
         return back()->with('success', 'Subkategori berhasil diperbarui.');
     }
@@ -59,11 +59,11 @@ class SubCategoryController extends Controller
         $categoryId = $sub->category_id;
         $sub->delete();
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'Deleted a subcategory: ' . $subName . ' dari kategori ID ' . $categoryId,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($sub)
+            ->log('Deleted a subcategory: ' . $subName . ' from category ID ' . $categoryId);
 
         return back()->with('success', 'Subkategori berhasil dihapus.');
     }

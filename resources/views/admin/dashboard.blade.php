@@ -28,10 +28,11 @@
     <div class="mt-10 bg-white p-6 rounded-xl shadow">
         <h2 class="text-lg font-semibold mb-4">Newest Activity</h2>
         <ul class="space-y-2">
-            @forelse ($log as $log)
+            @forelse ($log as $activity)
                 <li class="text-sm text-gray-700">
-                    <span class="font-medium">{{ $log->user->name }}</span> - {{ $log->information }}
-                    <span class="text-xs text-gray-500 block">{{ \Carbon\Carbon::parse($log->time)->diffForHumans() }}</span>
+                    <span class="font-medium">{{ $activity->causer->name ?? 'System' }}</span> - 
+                    {{ $activity->description }} 
+                    <span class="text-xs text-gray-500 block">{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</span>
                 </li>
             @empty
                 <li class="text-sm text-gray-500 italic">No Activity.</li>

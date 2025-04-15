@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Log;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +27,7 @@ class ProductController extends Controller
             })
             ->paginate(10); // Tetap menggunakan pagination
 
-        $subcategories = SubCategory::with('category')
-            ->get();
+        $subcategories = SubCategory::with('category')->get();
 
         return view('admin.product.index', compact('products', 'subcategories'));
     }
@@ -60,11 +58,11 @@ class ProductController extends Controller
             'sub_category_id' => $request->sub_category_id,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'added a new product: ' . $product->nameProduct,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($product)
+            ->log('Added a new product: ' . $product->nameProduct);
     
         return back()->with('success', 'Produk berhasil ditambahkan.');
     }
@@ -97,11 +95,11 @@ class ProductController extends Controller
             'sub_category_id' => $request->sub_category_id,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a product: ' . $oldName . ' menjadi ' . $product->nameProduct,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($product)
+            ->log('Edited product: ' . $oldName . ' to ' . $product->nameProduct);
     
         return back()->with('success', 'Produk berhasil diperbarui.');
     }
@@ -112,12 +110,12 @@ class ProductController extends Controller
         $productName = $product->nameProduct;
         $product->delete();
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'deleted a : ' . $productName,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($product)
+            ->log('Deleted product: ' . $productName);
 
         return back()->with('success', 'Produk berhasil dihapus.');
     }
-}    
+}

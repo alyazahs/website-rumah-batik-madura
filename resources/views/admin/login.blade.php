@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin</title>
     @vite('resources/css/app.css')
 </head>
+
 <body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-gray-900 to-black">
     <div class="relative w-full max-w-md p-8 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30">
         <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-white/20 rounded-full shadow-lg border border-white/40 flex items-center justify-center">
@@ -17,6 +19,13 @@
         <h2 class="mt-12 mb-6 text-3xl font-bold text-center text-white drop-shadow-lg tracking-wide">
             Login Admin
         </h2>
+
+        {{-- Menampilkan pesan status --}}
+        @if (session('status'))
+        <div class="p-3 mb-4 text-green-900 bg-green-200 border-l-4 border-green-500 rounded-md shadow-md">
+            {{ session('status') }}
+        </div>
+        @endif
 
         @if (session('success'))
             <div class="p-3 mb-4 text-green-900 bg-green-200 border-l-4 border-green-500 rounded-md shadow-md">
@@ -57,4 +66,5 @@
         </p>
     </div>
 </body>
+
 </html>

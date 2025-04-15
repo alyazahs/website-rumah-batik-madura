@@ -18,12 +18,12 @@
     @else
         <div class="overflow-x-auto bg-white rounded-xl shadow">
             <table class="min-w-full divide-y divide-gray-200 text-sm">
-                <thead class="bg-gray-100 text-left">
+                <thead class="bg-gray-600 text-left">
                     <tr>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Name</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Email</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Role</th>
-                        <th class="px-6 py-3 font-semibold text-gray-600">Status</th>
+                        <th class="px-6 py-3 font-semibold text-gray-100">Name</th>
+                        <th class="px-6 py-3 font-semibold text-gray-100">Email</th>
+                        <th class="px-6 py-3 font-semibold text-gray-100">Role</th>
+                        <th class="px-6 py-3 font-semibold text-gray-100">Status</th>
                         @auth
                             @if (Auth::user()->level === 'SuperAdmin')
                                 <th class="px-6 py-3 font-semibold text-gray-600 text-center">Actions</th>
@@ -50,7 +50,7 @@
                             </td>
                             @auth
                                 @if (Auth::user()->level === 'SuperAdmin')
-                                    <td class="px-6 py-3 text-center space-x-2">
+                                    <td class="px-6 py-3 text-center space-x-8">
                                         <button data-admin='@json($admin)' onclick="openEditModal(this)"
                                             class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
                                         <form action="{{ route('user.destroy', $admin->id) }}" method="POST"

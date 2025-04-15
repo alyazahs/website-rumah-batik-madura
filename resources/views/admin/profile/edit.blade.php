@@ -22,6 +22,15 @@
             <p class="text-gray-800 font-semibold">{{ $user->email }}</p>
         </div>
 
+        <div class="mb-4">
+            <label class="block font-medium text-gray-700">Status:</label>
+            <p class="font-semibold 
+        {{ $user->status === 'active' ? 'text-red-600' : 'text-green-600' }}">
+                {{ ucfirst($user->status) }}
+            </p>
+        </div>
+
+
         <div class="mt-6">
             <button onclick="toggleEdit(true)"
                 class="w-full bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">

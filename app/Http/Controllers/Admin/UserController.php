@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log as LaravelLog; // Alias untuk menghindari kebingungan
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
@@ -25,8 +24,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        LaravelLog::info($request->all()); // Menggunakan alias untuk logging aplikasi
-
         $request->validate([
             'name' => 'required|string|max:45',
             'email' => 'required|email|unique:user,email',
@@ -43,11 +40,11 @@ class UserController extends Controller
             'status' => $request->status,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'added a new user: ' . $user->name,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('Added a new user: ' . $user->name);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -75,30 +72,32 @@ class UserController extends Controller
         $oldName = $user->name;
         $user->update($data);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a user: ' . $oldName . ' menjadi ' . $user->name,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('Edited a user: ' . $oldName . ' became ' . $user->name);
 
         return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
     }
+
     public function destroy(User $user)
     {
         $userName = $user->name;
         $user->delete();
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'Menghapus user: ' . $userName,
-            'time' => now(),
-        ]);
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('Deleted a user: ' . $userName);
 
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
     }
+
     public function log()
     {
-        $logs = Log::with('user')->latest()->paginate(10);
+        $logs = Activity::with('causer')->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.log', compact('logs'));
     }
 }

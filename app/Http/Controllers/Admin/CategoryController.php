@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Log; // Import model Log
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class CategoryController extends Controller
 {
@@ -35,11 +35,10 @@ class CategoryController extends Controller
             'nameCategory' => $request->nameCategory,
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'added a new category: ' . $category->nameCategory,
-            'time' => now(),
-        ]);
+        // Mencatat log aktivitas
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Added new category: ' . $category->nameCategory);
 
         return redirect()->route('category.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -55,16 +54,16 @@ class CategoryController extends Controller
             'nameCategory' => 'required|string|max:100'
         ]);
 
-        $oldName = $category->nameCategory;
+        $oldName = $category->nameCategory; // Menyimpan nama kategori lama
+
         $category->update([
             'nameCategory' => $request->nameCategory
         ]);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a category: ' . $oldName . ' menjadi ' . $category->nameCategory,
-            'time' => now(),
-        ]);
+        // Mencatat log aktivitas
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Updated category: ' . $oldName . ' to ' . $category->nameCategory);
 
         return redirect()->route('category.index')->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -72,13 +71,13 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $categoryName = $category->nameCategory;
+
         $category->delete();
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'deleted a category: ' . $categoryName,
-            'time' => now(),
-        ]);
+        // Mencatat log aktivitas
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Deleted category: ' . $categoryName);
 
         return redirect()->route('category.index')->with('success', 'Kategori berhasil dihapus.');
     }

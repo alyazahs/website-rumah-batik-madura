@@ -126,16 +126,16 @@
 
     <div class="bg-white shadow-md rounded-xl overflow-x-auto">
         <table class="min-w-full text-sm text-gray-700 table-auto border border-gray-200">
-            <thead class="bg-gray-100 text-left">
+            <thead class="bg-gray-600 text-left">
                 <tr>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Name</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Category</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Subcategory</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Price</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Status</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Image</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600">Created At</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-200 font-semibold text-gray-600 text-center">Actions</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Name</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Category</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Subcategory</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Price</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Status</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Image</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100">Created At</th>
+                    <th class="px-6 py-3 font-semibold text-gray-100 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -162,14 +162,14 @@
                             {{ $product->created_at->format('d M Y') }}<br>
                             <span class="text-xs text-gray-500">by {{ $product->user->name ?? '-' }}</span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-2">
+                        <td class="px-6 py-4 text-center space-x-8">
                             <button @click="openEditModal({{ $product->idProduct }}, '{{ $product->nameProduct }}', '{{ $product->description }}', {{ $product->price }}, {{ $product->sub_category_id }}, '{{ $product->status }}')"
-                                class="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-edit"></i></button>
+                                class="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-edit text-2xl"></i></button>
                             <form action="{{ route('product.destroy', $product->idProduct) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?')" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                    class="text-red-600 hover:text-red-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-trash"></i></button>
+                                    class="text-red-600 hover:text-red-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-trash text-2xl"></i></button>
                             </form>
                         </td>
                     </tr>

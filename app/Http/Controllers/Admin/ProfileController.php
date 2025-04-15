@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
-use App\Models\Log;
+use Spatie\Activitylog\Models\Activity;
 
 class ProfileController extends Controller
 {
@@ -45,12 +45,12 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->update($data);
 
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a profile',
-            'time' => now(),
-        ]);
-    
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('Edited profile');
+
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
     
@@ -78,11 +78,19 @@ class ProfileController extends Controller
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
-        Log::create([
-            'user_id' => Auth::id(),
-            'information' => 'edited a password',
-            'time' => now(),
-        ]);
+
+        // Log out the user after changing the password
+        Auth::logout();
+
+        // Redirect to login page with success message
+        return redirect()->route('admin.login')
+            ->with('status', 'Password berhasil diubah, silakan login kembali.');
+
+        // Log activity using Spatie Activitylog
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('Edited password');
 
         return back()->with('success', 'Password berhasil diubah.');
     }
