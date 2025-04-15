@@ -16,7 +16,7 @@ class SubCategoryController extends Controller
         $request->validate([
             'nameSubCategory' => 'required|string|max:255',
         ]);
-    
+
         $subCategory = SubCategory::create([
             'nameSubCategory' => $request->nameSubCategory,
             'user_id' => Auth::id(),
@@ -28,29 +28,25 @@ class SubCategoryController extends Controller
             ->causedBy(Auth::user())
             ->performedOn($subCategory)
             ->log('Added a new subcategory: ' . $subCategory->nameSubCategory . ' in category ID ' . $category_id);
-    
-        return back()->with('success', 'Subkategori berhasil ditambahkan.');
-    }    
 
-    public function update(Request $request, Category $category, SubCategory $subcategory)
+        return back()->with('success', 'Subkategori berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nameSubCategory' => 'required|string|max:255',
         ]);
 
-        $oldName = $subcategory->nameSubCategory;
+        $subcategory = SubCategory::findOrFail($id);
+
         $subcategory->update([
             'nameSubCategory' => $request->nameSubCategory,
         ]);
 
-        // Log activity using Spatie Activitylog
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($subcategory)
-            ->log('Edited a subcategory: ' . $oldName . ' menjadi ' . $subcategory->nameSubCategory . ' in category ID ' . $subcategory->category_id);
-
         return back()->with('success', 'Subkategori berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {
