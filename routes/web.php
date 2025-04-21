@@ -70,10 +70,6 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     Route::resource('product', ProductController::class)
         ->parameters(['product' => 'product:idProduct']);
 
-    // User management
-    Route::resource('user', UserController::class);
-    Route::get('log', [UserController::class, 'log'])->name('admin.logs');
-
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -81,4 +77,10 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     // Ganti password
     Route::get('profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+    // Manajemen User & Log hanya untuk SuperAdmin
+    Route::middleware(['isSuperAdmin'])->group(function () {
+        Route::resource('user', UserController::class);
+        Route::get('log', [UserController::class, 'log'])->name('admin.logs');
+    });
 });

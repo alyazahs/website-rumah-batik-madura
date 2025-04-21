@@ -78,7 +78,7 @@ class UserController extends Controller
             ->performedOn($user)
             ->log('Edited a user: ' . $oldName . ' became ' . $user->name);
 
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
+        return redirect()->route('user.index')->with('success', 'Update User Success.');
     }
 
     public function destroy(User $user)
@@ -95,9 +95,30 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
     }
 
-    public function log()
+    public function log(Request $request)
     {
-        $logs = Activity::with('causer')->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.log', compact('logs'));
+        $query = Activity::with('causer');
+
+        // Filter berdasarkan keyword
+        if ($request->filled('search')) {
+            $query->where('description', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan user
+        if ($request->filled('user_id')) {
+            $query->where('causer_id', $request->user_id);
+        }
+
+        // Filter berdasarkan tanggal (format: Y-m-d)
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $logs = $query->latest()->paginate(10);
+
+        // Ambil semua user untuk dropdown filter
+        $users = User::pluck('name', 'id');
+
+        return view('admin.log', compact('logs', 'users'));
     }
 }

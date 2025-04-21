@@ -72,18 +72,25 @@
                         class="block px-4 py-1 rounded hover:bg-indigo-600 {{ request()->routeIs('category.*') ? 'bg-indigo-700 font-semibold' : '' }}">
                         Manage Categories
                     </a>
+                    {{-- Manage Users hanya untuk SuperAdmin --}}
+                    @if(Auth::user()->level === 'SuperAdmin')
                     <a href="{{ route('user.index') }}"
                         class="block px-4 py-1 rounded hover:bg-indigo-600 {{ request()->routeIs('user.*') ? 'bg-indigo-700 font-semibold' : '' }}">
                         Manage Users
                     </a>
+                    @endif
+
                 </div>
             </div>
 
-            {{-- Log --}}
+            {{-- Activity Log hanya untuk SuperAdmin --}}
+            @if(Auth::user()->level === 'SuperAdmin')
             <a href="{{ route('admin.logs') }}"
                 class="block px-4 py-2 rounded hover:bg-indigo-600 {{ request()->routeIs('admin.logs') ? 'bg-indigo-700 font-semibold' : '' }}">
                 <i class="fas fa-history mr-2"></i> Activity Log
             </a>
+            @endif
+
         </nav>
 
         {{-- Logout --}}

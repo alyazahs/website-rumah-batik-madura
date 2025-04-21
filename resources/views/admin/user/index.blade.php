@@ -10,7 +10,7 @@
                 <i class="fas fa-plus mr-2"></i> Add Admin
             </button>
         @endif
-    @endauth
+        @endauth
     </div>
 
     @if ($admins->isEmpty())
@@ -24,11 +24,7 @@
                         <th class="px-6 py-3 font-semibold text-gray-100">Email</th>
                         <th class="px-6 py-3 font-semibold text-gray-100">Role</th>
                         <th class="px-6 py-3 font-semibold text-gray-100">Status</th>
-                        @auth
-                            @if (Auth::user()->level === 'SuperAdmin')
-                                <th class="px-6 py-3 font-semibold text-gray-600 text-center">Actions</th>
-                            @endif
-                        @endauth
+                        <th class="px-6 py-3 font-semibold text-gray-100 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -48,20 +44,12 @@
                                     </span>
                                 @endif
                             </td>
-                            @auth
-                                @if (Auth::user()->level === 'SuperAdmin')
-                                    <td class="px-6 py-3 text-center space-x-8">
-                                        <button data-admin='@json($admin)' onclick="openEditModal(this)"
-                                            class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
-                                        <form action="{{ route('user.destroy', $admin->id) }}" method="POST"
-                                            class="inline-block"
-                                            onsubmit="return confirm('Are you sure you want to delete this admin?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Delete</button>
-                                        </form>
-                                    </td>
-                                @endif
-                            @endauth
+                            <td class="px-6 py-3 text-center space-x-4">
+                                <button data-admin='@json($admin)' onclick="confirmEdit(this)"
+                                    class="text-blue-600 hover:underline"><i class="fas fa-edit"></i> Edit</button>
+                                <button data-id="{{ $admin->id }}" data-name="{{ $admin->name }}" onclick="confirmDelete(this)"
+                                    class="text-red-600 hover:underline"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -69,7 +57,7 @@
         </div>
     @endif
 
-    <!-- Modal -->
+    {{-- Modal Form Add/Edit --}}
     <div id="userModal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
         <div class="bg-white w-full max-w-xl rounded-xl shadow-lg p-6 relative animate-fadeIn">
             <h2 id="modalTitle" class="text-xl font-bold mb-4">Add Admin</h2>
@@ -118,19 +106,50 @@
             <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl">×</button>
         </div>
     </div>
+
+    {{-- Modal Konfirmasi Delete --}}
+    <div id="deleteConfirmModal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md text-center animate-fadeIn">
+            <h3 class="text-lg font-bold mb-4">Hapus Admin?</h3>
+            <p class="text-gray-700 mb-4" id="deleteAdminText"></p>
+            <form method="POST" id="deleteForm">
+                @csrf
+                @method('DELETE')
+                <div class="flex justify-center gap-3">
+                    <button type="button" onclick="closeDeleteModal()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Batal</button>
+                    <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <style>
     @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
+
     .animate-fadeIn {
         animation: fadeIn 0.2s ease-out;
     }
 </style>
 
 <script>
+    const userModal = document.getElementById('userModal');
+    const deleteModal = document.getElementById('deleteConfirmModal');
+    const deleteForm = document.getElementById('deleteForm');
+    const deleteText = document.getElementById('deleteAdminText');
+
     document.getElementById('openAddModal').addEventListener('click', function () {
         document.getElementById('modalTitle').innerText = 'Add Admin';
         document.getElementById('userForm').action = "{{ route('user.store') }}";
@@ -140,15 +159,17 @@
         document.getElementById('password').value = '';
         document.getElementById('level').value = 'Admin';
         document.getElementById('status').value = 'Active';
-        document.getElementById('userModal').classList.remove('hidden');
         document.getElementById('passwordField').classList.remove('hidden');
+        userModal.classList.remove('hidden');
 
         const existingMethod = document.getElementById('methodField');
         if (existingMethod) existingMethod.remove();
     });
 
-    window.openEditModal = function (button) {
+    window.confirmEdit = function (button) {
         const admin = JSON.parse(button.getAttribute('data-admin'));
+
+        // langsung buka modal edit
         document.getElementById('modalTitle').innerText = 'Edit Admin';
         document.getElementById('userForm').action = `/admin/user/${admin.id}`;
         document.getElementById('userId').value = admin.id;
@@ -157,8 +178,8 @@
         document.getElementById('password').value = '';
         document.getElementById('level').value = admin.level;
         document.getElementById('status').value = admin.status;
-        document.getElementById('userModal').classList.remove('hidden');
         document.getElementById('passwordField').classList.add('hidden');
+        userModal.classList.remove('hidden');
 
         if (!document.getElementById('methodField')) {
             const methodField = document.createElement('input');
@@ -168,10 +189,23 @@
             methodField.id = 'methodField';
             document.getElementById('userForm').appendChild(methodField);
         }
-    }
+    };
+
+    window.confirmDelete = function (button) {
+        const id = button.getAttribute('data-id');
+        const name = button.getAttribute('data-name');
+
+        deleteText.innerText = `Yakin ingin menghapus admin "${name}"?`;
+        deleteForm.action = `/admin/user/${id}`;
+        deleteModal.classList.remove('hidden');
+    };
 
     function closeModal() {
-        document.getElementById('userModal').classList.add('hidden');
+        userModal.classList.add('hidden');
+    }
+
+    function closeDeleteModal() {
+        deleteModal.classList.add('hidden');
     }
 </script>
 @endsection
