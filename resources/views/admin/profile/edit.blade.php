@@ -1,6 +1,35 @@
 @extends('layouts.admin')
 
 @section('content')
+@if (session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 4000)" 
+        x-show="show" 
+        x-transition 
+        class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-green-100 text-green-800 shadow-lg border border-green-300"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span class="font-semibold">{{ session('success') }}</span>
+    </div>
+@endif
+
+@if (session('error'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 4000)" 
+        x-show="show" 
+        x-transition 
+        class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-red-100 text-red-800 shadow-lg border border-red-300"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <span class="font-semibold">{{ session('error') }}</span>
+    </div>
+@endif
 <div class="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-xl overflow-hidden">
     <div class="bg-indigo-500 py-4 px-6">
         <h1 class="text-xl font-semibold text-white text-center">Your Profile</h1>

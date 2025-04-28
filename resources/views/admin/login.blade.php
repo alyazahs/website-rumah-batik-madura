@@ -42,10 +42,10 @@
         <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-6">
             @csrf
             <div>
-                <label for="email" class="block text-sm font-medium text-white">Email</label>
-                <input type="email" name="email" id="email"
+                <label for="login" class="block text-sm font-medium text-white">Name or Email</label>
+                <input type="text" name="login" id="login"
                     class="w-full px-4 py-2 mt-1 border border-white/30 bg-white/20 text-white placeholder-gray-300 rounded-md focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-sm transition-all duration-200 ease-in-out hover:bg-white/30"
-                    placeholder="admin@example.com" required>
+                    placeholder="admin@example.com atau username" value="{{ old('login') }}" required>
             </div>
 
             <div>

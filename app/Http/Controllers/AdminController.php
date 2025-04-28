@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -14,18 +13,27 @@ class AdminController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $request->validate([
+        'login' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        if (Auth::guard('web')->attempt($request->only('email', 'password'), $request->filled('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->route('admin.dashboard')->with('success', 'Login berhasil!');
-        }
+    $login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-        return back()->withErrors(['email' => 'Email atau password salah!'])->withInput();
+    $credentials = [
+        $login_type => $request->input('login'),
+        'password' => $request->input('password'),
+    ];
+
+    if (Auth::guard('web')->attempt($credentials, $request->filled('remember'))) {
+        $request->session()->regenerate();
+        return redirect()->route('admin.dashboard')->with('success', 'Login berhasil!');
+    }
+
+    return back()->withErrors([
+        'login' => 'Email/nama atau password salah!',
+    ])->withInput();
     }
 
     public function dashboard()
