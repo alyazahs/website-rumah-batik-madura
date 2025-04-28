@@ -57,6 +57,15 @@ Route::middleware(['auth:admin'])->group(function () {
 // ===========================
 // ADMIN PANEL ROUTES
 // ===========================
+
+Route::get('/admin', function () {
+    if (auth('web')->check()) {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('admin.login');
+    }
+});
+
 Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     // Kategori
     Route::resource('category', CategoryController::class)
