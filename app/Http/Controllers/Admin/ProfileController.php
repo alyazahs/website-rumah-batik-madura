@@ -14,38 +14,52 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $user = Auth::user();
+        $user = Auth::user(); // Ensure $user is an instance of App\Models\User
+        if (!$user instanceof User) {
+            abort(500, 'Authenticated user is not a valid User instance.');
+        }
         return view('admin.profile.edit', compact('user'));
     }
 
     public function update(Request $request)
     {
         $user = Auth::user();
+        if (!$user instanceof User) {
+            abort(500, 'Authenticated user is not a valid User instance.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_photo' => 'nullable|boolean', // tambahkan validasi ini
         ]);
-    
+
         $data = $request->only('name', 'email');
-    
+
+        // Jika ada upload file photo baru
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('profile', $photo, $filename);
-    
+
+            // Hapus foto lama kalau ada
             if ($user->path) {
                 Storage::delete('public/profile/' . $user->path);
             }
-    
+
             $data['path'] = $filename;
+        } elseif ($request->input('remove_photo') == '1') {
+            // Kalau user hapus foto tanpa upload baru
+            if ($user->path) {
+                Storage::delete('public/profile/' . $user->path);
+            }
+            $data['path'] = null;
         }
-    
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+
         $user->update($data);
 
-        // Log activity using Spatie Activitylog
+        // Log activity
         activity()
             ->causedBy(Auth::user())
             ->performedOn($user)
@@ -53,7 +67,6 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
-    
 
     public function password()
     {
@@ -68,30 +81,31 @@ class ProfileController extends Controller
         ]);
 
         $user = Auth::user();
+
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama tidak cocok.']);
         }
 
-        $user->password = Hash::make($request->new_password);
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        // Update password
+        if ($user instanceof User) {
+            $user->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+        } else {
+            abort(500, 'Authenticated user is not a valid User instance.');
+        }
 
-        // Log out the user after changing the password
-        Auth::logout();
-
-        // Redirect to login page with success message
-        return redirect()->route('admin.login')
-            ->with('status', 'Password berhasil diubah, silakan login kembali.');
-
-        // Log activity using Spatie Activitylog
+        // Log activity
         activity()
-            ->causedBy(Auth::user())
+            ->causedBy($user)
             ->performedOn($user)
             ->log('Edited password');
 
-        return back()->with('success', 'Password berhasil diubah.');
+        // Log out the user
+        Auth::logout();
+
+        // Redirect ke login
+        return redirect()->route('admin.login')
+            ->with('status', 'Password berhasil diubah, silakan login kembali.');
     }
 }

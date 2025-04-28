@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('admin.components.confirm-delete-modal')
 @if (session('success'))
     <div 
         x-data="{ show: true }" 
@@ -191,10 +192,10 @@
                             {{ $product->created_at->format('d M Y') }}<br>
                             <span class="text-xs text-gray-500">by {{ $product->user->name ?? '-' }}</span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-8">
+                        <td class="px-6 py-4 text-center space-x-6">
                             <button @click="openEditModal({{ $product->idProduct }}, '{{ $product->nameProduct }}', '{{ $product->description }}', {{ $product->price }}, {{ $product->sub_category_id }}, '{{ $product->status }}')"
                                 class="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-edit text-2xl"></i></button>
-                            <form action="{{ route('product.destroy', $product->idProduct) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?')" class="inline">
+                            <form action="{{ route('product.destroy', $product->idProduct) }}" method="POST" class="inline-block"onsubmit="event.preventDefault(); openConfirmDelete(this, '{{ $product->nameProduct }}');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"

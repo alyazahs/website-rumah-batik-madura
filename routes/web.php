@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Admin\LogController;
 
 // ===========================
 // PUBLIC ROUTES
@@ -92,5 +93,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     Route::middleware(['isSuperAdmin'])->group(function () {
         Route::resource('user', UserController::class);
         Route::get('log', [UserController::class, 'log'])->name('admin.logs');
+        Route::delete('log', [LogController::class, 'delete'])->name('admin.logs.delete');
+        Route::get('/admin/logs/filter', [LogController::class, 'filter'])->name('admin.logs.filter');
     });
 });

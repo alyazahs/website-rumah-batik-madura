@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('admin.components.confirm-delete-modal')
 @if (session('success'))
     <div 
         x-data="{ show: true }" 
@@ -74,7 +75,8 @@
                     " class="text-green-500 hover:underline text-lg p-2" title="Add Subcategory"><i class="fas fa-plus text-xl"></i></button>
 
                     <form action="{{ route('category.destroy', $category->idCategory) }}" method="POST"
-                        class="inline-block" onsubmit="return confirm('Delete this category?')">
+                    class="inline-block"
+                    onsubmit="event.preventDefault(); openConfirmDelete(this, '{{ $category->nameCategory }}');">
                         @csrf @method('DELETE')
                         <button class="text-red-500 hover:underline text-lg p-2" title="Delete Category"><i class="fas fa-trash text-xl"></i></button>
                     </form>
@@ -102,7 +104,7 @@
                             " class="text-blue-500 hover:underline text-lg p-2" title="Edit Subcategory"><i class="fas fa-edit"></i></button>
 
                             <form action="{{ route('subcategory.destroy', $sub->idSubCategory) }}" method="POST"
-                                @submit.prevent="if(confirm('Delete this subcategory?')) { $event.target.submit(); deleted = true; }"
+                            onsubmit="event.preventDefault(); openConfirmDelete(this, '{{ $sub->nameSubCategory }}');" { $event.target.submit(); deleted = true; }"
                                 class="inline">
                                 @csrf @method('DELETE')
                                 <button class="text-red-500 hover:underline text-lg p-2" title="Delete Subcategory"><i class="fas fa-trash"></i></button>
