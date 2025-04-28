@@ -20,7 +20,7 @@
             <button class="lg:hidden text-white text-3xl">&#9776;</button>
             <ul class="hidden lg:flex space-x-8 text-lg">
                 <li><a class="hover:text-gray-300" href="{{ route('home') }}">Beranda</a></li>
-                <li><a class="hover:text-gray-300" href="{{ route('katalog') }}">Katalog</a></li>
+                <li><a class="hover:text-gray-300" href="{{ route('catalog') }}">Catalog</a></li>
                 <li><a class="hover:text-gray-300" href="{{ route('tentang') }}">Tentang Kami</a></li>
             </ul>
         </div>

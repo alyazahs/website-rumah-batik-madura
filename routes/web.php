@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 // ===========================
@@ -21,10 +22,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-// Halaman katalog
-Route::get('/katalog', function () {
-    return view('katalog');
-})->name('katalog');
+// Halaman catalog
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
+Route::get('/catalog/category/{categoryId}', [CatalogController::class, 'category'])->name('catalog.category');
+Route::get('/catalog/subcategory/{subCategoryId}', [CatalogController::class, 'subCategory'])->name('catalog.subcategory');
 
 // Halaman tentang
 Route::get('/tentang', function () {

@@ -30,9 +30,9 @@ class SubCategory extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke product
+    // Relasi ke produk
     public function products()
     {
-        return $this->hasMany(Product::class, 'sub_category_id', 'idSubCategory');
+        return $this->hasMany(Product::class, 'idSubCategory', 'idSubCategory');
     }
 }
