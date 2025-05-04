@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,45 @@
     <script src="{{ asset('js/menu.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
 </head>
+
 <body class="bg-gray-100 font-sans min-h-screen flex flex-col">
 
     {{-- Navbar --}}
     @if (!Request::is('admin*'))
     <nav class="bg-gradient-to-r from-gray-800 to-gray-600 text-white py-5 px-6 shadow-md">
-        <div class="max-w-screen-xl mx-auto flex justify-between items-center">
-            <a class="text-3xl font-bold" href="#">Batik Madura</a>
-            <button class="lg:hidden text-white text-3xl">&#9776;</button>
-            <ul class="hidden lg:flex space-x-8 text-lg">
-                <li><a class="hover:text-gray-300" href="{{ route('home') }}">Beranda</a></li>
-                <li><a class="hover:text-gray-300" href="{{ route('catalog') }}">Catalog</a></li>
-                <li><a class="hover:text-gray-300" href="{{ route('tentang') }}">Tentang Kami</a></li>
-            </ul>
-        </div>
-    </nav>
-    @endif
+    <div class="max-w-screen-xl mx-auto flex justify-between items-center">
+        <a class="text-3xl font-bold" href="{{ route('home') }}">Batik Madura</a>
+        <button class="lg:hidden text-white text-3xl">&#9776;</button>
+
+        <ul class="hidden lg:flex space-x-8 text-lg items-center">
+            <li><a class="hover:text-gray-300" href="{{ route('home') }}">Beranda</a></li>
+
+            {{-- Dropdown Catalog --}}
+            <li x-data="{ open: false }" class="relative">
+                <button @click="open = !open"
+                    class="hover:text-gray-300 flex items-center gap-1 focus:outline-none">
+                    Catalog
+                    <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <ul x-show="open" @click.away="open = false" x-transition
+                    class="absolute z-50 mt-2 bg-white text-gray-800 rounded shadow-md w-48">
+                    @foreach ($categories as $category)
+                    <li>
+                        <a href="{{ route('catalog.category', $category->idCategory) }}"
+                            class="block px-4 py-2 hover:bg-indigo-100">
+                            {{ $category->nameCategory }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+
+            <li><a class="hover:text-gray-300" href="{{ route('tentang') }}">Tentang Kami</a></li>
+        </ul>
+    </div>
+</nav>
+@endif
 
     {{-- Konten Utama --}}
     <main class="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
@@ -55,4 +77,5 @@
     @endif
 
 </body>
+
 </html>

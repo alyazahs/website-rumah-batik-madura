@@ -9,40 +9,57 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
-    // Menampilkan semua kategori
-    public function index()
+    public function __construct()
     {
-        $categories = Category::all();  // Ambil semua kategori
-        $products = Product::with('subCategory.category')  // Relasi untuk SubCategory dan Category
-                           ->paginate(12);  // Ambil produk dengan pagination 12 per halaman
-
-        return view('catalog', compact('categories', 'products'));
+        // Pastikan $categories tersedia untuk semua view
+        $categories = Category::with('subCategories')->get();
+        view()->share('categories', $categories);
     }
 
-    // Menampilkan produk berdasarkan kategori
+    public function index(Request $request)
+    {
+        $subCategories = SubCategory::all();
+        $products = Product::with('subCategory.category');
+        
+        if ($request->has('jenis') && $request->jenis != '') {
+            $products->where('sub_category_id', $request->jenis);
+        }
+        
+        $products = $products->paginate(12);
+        
+        return view('catalog', [
+            'subCategories' => $subCategories,
+            'products' => $products,
+            'subCategoryId' => $request->jenis ?? null
+        ]);
+    }
+
     public function category($categoryId)
     {
-        $categories = Category::all(); // Pastikan kategori tetap ada
-        $category = Category::findOrFail($categoryId);
-        $subCategories = SubCategory::where('category_id', $categoryId)->get();
+        $category = Category::with('subCategories')->findOrFail($categoryId);
+        $subCategories = $category->subCategories;
+        
         $products = Product::with('subCategory')
-                           ->whereHas('subCategory', function ($query) use ($categoryId) {
-                               $query->where('category_id', $categoryId);
-                           })
-                           ->paginate(12);
+                         ->whereHas('subCategory', fn($q) => $q->where('category_id', $categoryId))
+                         ->paginate(12);
 
-        return view('catalog', compact('categories', 'category', 'subCategories', 'products'));
+        return view('catalog', compact('category', 'subCategories', 'products'));
     }
 
-    // Menampilkan produk berdasarkan subkategori
     public function subCategory($subCategoryId)
     {
-        $categories = Category::all(); // Pastikan kategori tetap ada
-        $subCategory = SubCategory::findOrFail($subCategoryId);
+        $subCategory = SubCategory::with('category')->findOrFail($subCategoryId);
+        $subCategories = SubCategory::where('category_id', $subCategory->category_id)->get();
+        
         $products = Product::with('subCategory')
-                           ->where('sub_category_id', $subCategoryId)
-                           ->paginate(12);
+                         ->where('sub_category_id', $subCategoryId)
+                         ->paginate(12);
 
-        return view('catalog', compact('categories', 'subCategory', 'products'));
+        return view('catalog', [
+            'subCategory' => $subCategory,
+            'subCategories' => $subCategories,
+            'products' => $products,
+            'subCategoryId' => $subCategoryId
+        ]);
     }
 }
