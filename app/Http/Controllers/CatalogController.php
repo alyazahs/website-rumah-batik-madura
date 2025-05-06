@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    public function home()
+    {
+        $latestProducts = Product::latest()->take(5)->get();
+        return view('home', compact('latestProducts'));
+    }
+
     public function __construct()
     {
         // Pastikan $categories tersedia untuk semua view

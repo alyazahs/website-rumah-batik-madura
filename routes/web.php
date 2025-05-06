@@ -19,9 +19,7 @@ use App\Http\Controllers\Admin\LogController;
 // ===========================
 
 // Halaman utama
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [CatalogController::class, 'home'])->name('home');
 
 // Halaman catalog
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
