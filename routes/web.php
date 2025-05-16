@@ -25,6 +25,7 @@ Route::get('/', [CatalogController::class, 'home'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/catalog/category/{categoryId}', [CatalogController::class, 'category'])->name('catalog.category');
 Route::get('/catalog/subcategory/{subCategoryId}', [CatalogController::class, 'subCategory'])->name('catalog.subcategory');
+Route::get('/catalog/product/{id}', [CatalogController::class, 'show'])->name('catalog.show');
 
 // Halaman tentang
 Route::get('/tentang', function () {
