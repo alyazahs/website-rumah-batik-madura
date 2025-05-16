@@ -36,7 +36,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'nameProduct' => 'required|string|max:50',
-            'description' => 'nullable|string|max:512',
+            'description' => 'nullable|string|',
             'price' => 'required|integer|min:0',
             'sub_category_id' => 'required|exists:sub_category,idSubCategory',
             'status' => 'required|in:Available,Sold',
@@ -74,7 +74,7 @@ class ProductController extends Controller
     
         $request->validate([
             'nameProduct' => 'required|string|max:50',
-            'description' => 'nullable|string|max:512',
+            'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
             'sub_category_id' => 'required|exists:sub_category,idSubCategory',
             'status' => 'required|in:Available,Sold',

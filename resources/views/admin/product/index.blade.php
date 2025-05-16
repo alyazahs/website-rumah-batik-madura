@@ -3,33 +3,31 @@
 @section('content')
 @include('admin.components.confirm-delete-modal')
 @if (session('success'))
-    <div 
-        x-data="{ show: true }" 
-        x-init="setTimeout(() => show = false, 4000)" 
-        x-show="show" 
-        x-transition 
-        class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-green-100 text-green-800 shadow-lg border border-green-300"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-        <span class="font-semibold">{{ session('success') }}</span>
-    </div>
+<div
+    x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 4000)"
+    x-show="show"
+    x-transition
+    class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-green-100 text-green-800 shadow-lg border border-green-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="font-semibold">{{ session('success') }}</span>
+</div>
 @endif
 
 @if (session('error'))
-    <div 
-        x-data="{ show: true }" 
-        x-init="setTimeout(() => show = false, 4000)" 
-        x-show="show" 
-        x-transition 
-        class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-red-100 text-red-800 shadow-lg border border-red-300"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        <span class="font-semibold">{{ session('error') }}</span>
-    </div>
+<div
+    x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 4000)"
+    x-show="show"
+    x-transition
+    class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-lg bg-red-100 text-red-800 shadow-lg border border-red-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mt-1 shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+    <span class="font-semibold">{{ session('error') }}</span>
+</div>
 @endif
 <div class="p-8" x-data="productModal()">
     <div class="flex items-center justify-between mb-8">
@@ -112,9 +110,9 @@
                             required>
                             <option value="">Select Subcategory</option>
                             @foreach ($subcategories as $sub)
-                                <option value="{{ $sub->idSubCategory }}">
-                                    {{ $sub->category->nameCategory }} - {{ $sub->nameSubCategory }}
-                                </option>
+                            <option value="{{ $sub->idSubCategory }}">
+                                {{ $sub->category->nameCategory }} - {{ $sub->nameSubCategory }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -146,9 +144,17 @@
 
     <style>
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         .animate-fadeIn {
             animation: fadeIn 0.2s ease-out;
         }
@@ -170,43 +176,53 @@
             </thead>
             <tbody>
                 @forelse ($products as $product)
-                    <tr class="border-t hover:bg-gray-50 transition duration-300 ease-in-out">
-                        <td class="px-6 py-4">{{ $product->nameProduct }}</td>
-                        <td class="px-6 py-4">{{ $product->subCategory->category->nameCategory ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $product->subCategory->nameSubCategory ?? '-' }}</td>
-                        <td class="px-6 py-4">Rp{{ number_format($product->price, 0, ',', '.') }}</td>
-                        <td class="px-6 py-4">
-                            <span
-                                class="inline-block px-3 py-1 rounded-full text-xs font-medium {{ $product->status == 'Available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                                {{ ucfirst($product->status) }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            @if ($product->path)
-                                <img src="{{ asset('storage/' . $product->path) }}" class="w-16 h-16 object-cover rounded-md shadow-sm" alt="Product Image">
-                            @else
-                                <span class="text-gray-400 italic">No image</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $product->created_at->format('d M Y') }}<br>
-                            <span class="text-xs text-gray-500">by {{ $product->user->name ?? '-' }}</span>
-                        </td>
-                        <td class="px-6 py-4 text-center space-x-6">
-                            <button @click="openEditModal({{ $product->idProduct }}, '{{ $product->nameProduct }}', '{{ $product->description }}', {{ $product->price }}, {{ $product->sub_category_id }}, '{{ $product->status }}')"
-                                class="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-edit text-2xl"></i></button>
-                            <form action="{{ route('product.destroy', $product->idProduct) }}" method="POST" class="inline-block"onsubmit="event.preventDefault(); openConfirmDelete(this, '{{ $product->nameProduct }}');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="text-red-600 hover:text-red-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-trash text-2xl"></i></button>
-                            </form>
-                        </td>
-                    </tr>
+                <tr class="border-t hover:bg-gray-50 transition duration-300 ease-in-out">
+                    <td class="px-6 py-4">{{ $product->nameProduct }}</td>
+                    <td class="px-6 py-4">{{ $product->subCategory->category->nameCategory ?? '-' }}</td>
+                    <td class="px-6 py-4">{{ $product->subCategory->nameSubCategory ?? '-' }}</td>
+                    <td class="px-6 py-4">Rp{{ number_format($product->price, 0, ',', '.') }}</td>
+                    <td class="px-6 py-4">
+                        <span
+                            class="inline-block px-3 py-1 rounded-full text-xs font-medium {{ $product->status == 'Available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                            {{ ucfirst($product->status) }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        @if ($product->path)
+                        <img src="{{ asset('storage/' . $product->path) }}" class="w-16 h-16 object-cover rounded-md shadow-sm" alt="Product Image">
+                        @else
+                        <span class="text-gray-400 italic">No image</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $product->created_at->format('d M Y') }}<br>
+                        <span class="text-xs text-gray-500">by {{ $product->user->name ?? '-' }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center space-x-6">
+                        <button
+                            @click="handleEditClick($event)"
+                            data-id="{{ $product->idProduct }}"
+                            data-name="{{ $product->nameProduct }}"
+                            data-description="{{ e($product->description) }}"
+                            data-price="{{ $product->price }}"
+                            data-subcategory="{{ $product->sub_category_id }}"
+                            data-status="{{ $product->status }}"
+                            class="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out">
+                            <i class="fas fa-edit text-2xl"></i>
+                        </button>
+
+                        <form action="{{ route('product.destroy', $product->idProduct) }}" method="POST" class="inline-block" onsubmit="event.preventDefault(); openConfirmDelete(this, '{{ $product->nameProduct }}');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="text-red-600 hover:text-red-800 font-medium transition duration-300 ease-in-out"><i class="fas fa-trash text-2xl"></i></button>
+                        </form>
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">No products found.</td>
-                    </tr>
+                <tr>
+                    <td colspan="8" class="px-6 py-4 text-center text-gray-500">No products found.</td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
@@ -253,6 +269,21 @@
                     price: price,
                     sub_category_id: subcategory_id,
                     status: status,
+                };
+                this.preview = '';
+                this.modalOpen = true;
+            },
+            handleEditClick(event) {
+                const target = event.currentTarget;
+
+                this.editMode = true;
+                this.formAction = `/admin/product/${target.dataset.id}`;
+                this.form = {
+                    nameProduct: target.dataset.name,
+                    description: target.dataset.description,
+                    price: target.dataset.price,
+                    sub_category_id: target.dataset.subcategory,
+                    status: target.dataset.status,
                 };
                 this.preview = '';
                 this.modalOpen = true;
