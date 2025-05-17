@@ -110,7 +110,7 @@
 
             <!-- CTA Button -->
             <div class="text-center">
-                <a href="" class="inline-block px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                <a href="/" class="inline-block px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition duration-300 shadow-md hover:shadow-lg">
                     Kunjungi Toko Kami
                 </a>
             </div>
