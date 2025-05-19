@@ -2,65 +2,40 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Defaults
-    |--------------------------------------------------------------------------
-    */
     'defaults' => [
-        'guard' => 'web', // default guard
-        'passwords' => 'user', // default password reset
+        'guard' => 'web',
+        'passwords' => 'users', // GANTI dari 'user' ke 'users'
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Guards
-    |--------------------------------------------------------------------------
-    */
     'guards' => [
-        'web' => [ // Guard default, bisa kamu pakai buat admin juga
+        'web' => [
             'driver' => 'session',
-            'provider' => 'user',
+            'provider' => 'users', // GANTI dari 'user' ke 'users'
         ],
 
-        // Jika ingin pisahkan login admin (tapi tetap pakai model User), aktifkan ini:
+        // Bisa aktifkan jika ingin guard admin juga pakai User model
         // 'admin' => [
         //     'driver' => 'session',
         //     'provider' => 'users',
         // ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | User Providers
-    |--------------------------------------------------------------------------
-    */
     'providers' => [
-        'user' => [
+        'users' => [ // GANTI dari 'user' ke 'users'
             'driver' => 'eloquent',
-            'model' => App\Models\User::class, // pakai model User
+            'model' => App\Models\User::class,
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Resetting Passwords
-    |--------------------------------------------------------------------------
-    */
-    'password' => [
-        'user' => [
-            'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+    'passwords' => [
+        'users' => [ // GANTI dari 'user' ke 'users'
+            'provider' => 'users', // Harus sesuai dengan key provider di atas
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Password Confirmation Timeout
-    |--------------------------------------------------------------------------
-    */
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
 ];

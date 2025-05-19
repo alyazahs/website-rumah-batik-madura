@@ -1,27 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-bold text-center mb-4">Buat Password Baru</h2>
-        <form action="{{ route('password.update') }}" method="POST">
-            @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
-            
-            <label for="email" class="block font-medium">Email</label>
-            <input type="email" name="email" required class="w-full p-2 border rounded mt-1 mb-4">
-            
-            <label for="password" class="block font-medium">Password Baru</label>
-            <input type="password" name="password" required class="w-full p-2 border rounded mt-1 mb-4">
-            
-            <label for="password_confirmation" class="block font-medium">Konfirmasi Password</label>
-            <input type="password" name="password_confirmation" required class="w-full p-2 border rounded mt-1 mb-4">
-            
-            <button type="submit"
-                class="w-full bg-red-700 text-white p-2 rounded hover:bg-red-800 transition">
-                Reset Password
-            </button>
-        </form>
-    </div>
+<div class="max-w-md mx-auto mt-12 p-6 bg-white rounded shadow">
+    <form method="POST" action="{{ route('password.update') }}">
+        @csrf
+
+        <input type="hidden" name="token" value="{{ $token }}">
+
+        <label class="block mb-2 font-bold" for="email">Email</label>
+        <input type="email" name="email" value="{{ old('email', $email) }}" class="w-full p-2 border rounded" required autofocus>
+
+        <label class="block mb-2 mt-4 font-bold" for="password">Password Baru</label>
+        <input type="password" name="password" class="w-full p-2 border rounded" required>
+
+        <label class="block mb-2 mt-4 font-bold" for="password_confirmation">Konfirmasi Password</label>
+        <input type="password" name="password_confirmation" class="w-full p-2 border rounded" required>
+
+        <button type="submit" class="mt-4 w-full bg-blue-600 text-white p-2 rounded">Reset Password</button>
+    </form>
 </div>
 @endsection

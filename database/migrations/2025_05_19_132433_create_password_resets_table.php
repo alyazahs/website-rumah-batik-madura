@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('product', function (Blueprint $table) {
-            $table->text('description')->nullable()->change();
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
     public function down(): void
     {
-        Schema::table('product', function (Blueprint $table) {
-            $table->string('description', 255)->nullable()->change();
-        });
+        Schema::dropIfExists('password_resets');
     }
 };
