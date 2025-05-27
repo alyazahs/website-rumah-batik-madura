@@ -4,12 +4,13 @@
 <div class="relative h-screen flex items-center justify-center text-center overflow-hidden">
     <!-- Background image with proper sizing -->
     <div class="absolute inset-0 bg-[#706D54]">
-        <!-- Check if this path is correct - use asset helper properly -->
-        <img src="{{ asset('images/batik3.png') }}" alt="Batik Madura Background"
-            class="w-full h-full object-cover object-center opacity-0 transition-opacity duration-1000"
-            onload="this.style.opacity='1';">
+        <div id="slideshow" class="absolute inset-0">
+            <img src="{{ asset('images/batik1.png') }}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" />
+            <img src="{{ asset('images/batik2.png') }}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" />
+            <img src="{{ asset('images/batik3.png') }}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" />
+        </div>
 
-        <!-- Reduced opacity overlay -->
+        <!-- Overlay hitam -->
         <div class="absolute inset-0 bg-black opacity-80"></div>
     </div>
 
@@ -112,7 +113,7 @@
         </a>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-    @forelse($latestProducts as $product)
+        @forelse($latestProducts as $product)
         <div class="bg-white border rounded-2xl shadow hover:shadow-lg transition duration-300 group overflow-hidden">
             <a href="{{ route('catalog.show', $product->idProduct) }}">
                 <div class="relative h-64 overflow-hidden">
@@ -137,80 +138,100 @@
                 </div>
             </div>
         </div>
-    @empty
+        @empty
         <p class="text-gray-500">Belum ada produk tersedia.</p>
-    @endforelse
-</div>
+        @endforelse
+    </div>
 
-<!-- Story/Heritage Section - New addition -->
-<div class="py-24 bg-white overflow-hidden">
-    <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="relative mx-auto px-4xl px-12">
-                <div class="absolute -top-6 -left-6 w-24 h-24 bg-amber-100 rounded-full z-0"></div>
-                <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-amber-200 rounded-full z-0"></div>
-                <img src="{{ asset('images/home4.png') }}" alt="Batik Workshop" class="relative z-10 rounded-2xl shadow-xl w-full h-auto">
-            </div>
-            <div>
-                <span class="text-amber-500 font-medium">Cerita Kami</span>
-                <h2 class="text-4xl font-bold text-gray-800 mt-2">Warisan Kebanggaan Madura</h2>
-                <p class="mt-6 text-gray-600 leading-relaxed">
-                    Batik Madura memiliki sejarah panjang yang diwariskan turun-temurun sejak abad ke-16. Setiap motif yang kami ciptakan memiliki makna mendalam yang menceritakan kehidupan, alam, dan filosofi masyarakat Madura.
-                </p>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                    Kami berkomitmen untuk melestarikan warisan budaya ini dengan tetap menggunakan teknik tradisional sambil menghadirkan sentuhan modern yang sesuai dengan perkembangan zaman.
-                </p>
+    <!-- Story/Heritage Section - New addition -->
+    <div class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative mx-auto px-4xl px-12">
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-amber-100 rounded-full z-0"></div>
+                    <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-amber-200 rounded-full z-0"></div>
+                    <img src="{{ asset('images/home4.png') }}" alt="Batik Workshop" class="relative z-10 rounded-2xl shadow-xl w-full h-auto">
+                </div>
+                <div>
+                    <span class="text-amber-500 font-medium">Cerita Kami</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mt-2">Warisan Kebanggaan Madura</h2>
+                    <p class="mt-6 text-gray-600 leading-relaxed">
+                        Batik Madura memiliki sejarah panjang yang diwariskan turun-temurun sejak abad ke-16. Setiap motif yang kami ciptakan memiliki makna mendalam yang menceritakan kehidupan, alam, dan filosofi masyarakat Madura.
+                    </p>
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        Kami berkomitmen untuk melestarikan warisan budaya ini dengan tetap menggunakan teknik tradisional sambil menghadirkan sentuhan modern yang sesuai dengan perkembangan zaman.
+                    </p>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Newsletter Section - New addition -->
-<div class="py-16 bg-amber-500">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-black">Apakah Anda Penasaran Detail dari Batik Kami?</h2>
-        <p class="mt-3 text-black/80 max-w-xl mx-auto">Hubungi kami untuk mendapatkan informasi tentang detail batik, koleksi terbaru, promo eksklusif, dan cerita di balik batik Madura.</p>
-        <a href="/tentang"><br>
-            <button type="button" class="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition duration-300">
-                Contact Us
-            </button>
-        </a>
+    <!-- Newsletter Section - New addition -->
+    <div class="py-16 bg-amber-500">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-black">Apakah Anda Penasaran Detail dari Batik Kami?</h2>
+            <p class="mt-3 text-black/80 max-w-xl mx-auto">Hubungi kami untuk mendapatkan informasi tentang detail batik, koleksi terbaru, promo eksklusif, dan cerita di balik batik Madura.</p>
+            <a href="/tentang"><br>
+                <button type="button" class="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition duration-300">
+                    Contact Us
+                </button>
+            </a>
+        </div>
     </div>
-</div>
 
-<!-- Add any required CSS for animations to your app.css file -->
-@push('styles')
-<style>
-    @keyframes slow-zoom {
-        0% {
-            transform: scale(1);
+    @push('styles')
+    <style>
+        @keyframes slow-zoom {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
         }
 
-        100% {
-            transform: scale(1.1);
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-    }
 
-    @keyframes fade-in-up {
-        0% {
-            opacity: 0;
-            transform: translateY(20px);
+        .animate-slow-zoom {
+            animation: slow-zoom 15s ease-in-out infinite alternate;
         }
 
-        100% {
-            opacity: 1;
-            transform: translateY(0);
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
         }
+        
+    </style>
+    @endpush
+    <script>
+    const slides = document.querySelectorAll('#slideshow img');
+    let current = 0;
+
+    function showNextImage() {
+        slides[current].classList.remove('opacity-100');
+        slides[current].classList.add('opacity-0');
+
+        current = (current + 1) % slides.length;
+
+        slides[current].classList.remove('opacity-0');
+        slides[current].classList.add('opacity-100');
     }
 
-    .animate-slow-zoom {
-        animation: slow-zoom 15s ease-in-out infinite alternate;
-    }
+    // Set opacity-100 to the first image initially
+    slides[0].classList.add('opacity-100');
 
-    .animate-fade-in-up {
-        animation: fade-in-up 0.8s ease-out forwards;
-    }
-</style>
-@endpush
-@endsection
+    // Ubah gambar setiap 3 detik
+    setInterval(showNextImage, 3000);
+    </script>
+    @endsection
