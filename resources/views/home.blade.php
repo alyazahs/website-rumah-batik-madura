@@ -111,36 +111,36 @@
             </svg>
         </a>
     </div>
-    <div class="grid md:grid-cols-3 gap-8 mx-auto px-4xl px-12">
-        @forelse($latestProducts as $product)
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+    @forelse($latestProducts as $product)
         <div class="bg-white border rounded-2xl shadow hover:shadow-lg transition duration-300 group overflow-hidden">
-            <div class="relative h-64 overflow-hidden">
-                <img src="{{ asset('storage/' . $product->path) }}"
-                    alt="{{ $product->nameProduct }}"
-                    class="w-full h-full object-cover rounded-t-2xl transition duration-700 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 rounded-t-2xl"></div>
-            </div>
+            <a href="{{ route('catalog.show', $product->idProduct) }}">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{{ asset('storage/' . $product->path) }}"
+                        alt="{{ $product->nameProduct }}"
+                        class="w-full h-full object-cover rounded-t-2xl transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 rounded-t-2xl"></div>
+                </div>
+            </a>
             <div class="p-4 flex flex-col gap-2">
                 <h3 class="text-lg font-semibold text-gray-900 group-hover:text-amber-600 transition duration-300">
                     {{ $product->nameProduct }}
                 </h3>
                 <div class="flex justify-between items-center">
-                    <p class="text-grey-900 font-bold">
+                    <p class="text-gray-900 font-bold">
                         Rp {{ number_format($product->price, 0, ',', '.') }}
                     </p>
-                    <a href="{{ route('catalog') }}"
+                    <a href="{{ route('catalog.show', $product->idProduct) }}"
                         class="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-400 transition text-sm">
                         Lihat Detail
                     </a>
                 </div>
             </div>
         </div>
-        @empty
+    @empty
         <p class="text-gray-500">Belum ada produk tersedia.</p>
-        @endforelse
-    </div>
+    @endforelse
 </div>
-
 
 <!-- Story/Heritage Section - New addition -->
 <div class="py-24 bg-white overflow-hidden">

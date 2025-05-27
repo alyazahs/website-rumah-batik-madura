@@ -11,7 +11,7 @@ class CatalogController extends Controller
 {
     public function home()
     {
-        $latestProducts = Product::latest()->take(5)->get();
+        $latestProducts = Product::latest()->take(6)->get();
         return view('home', compact('latestProducts'));
     }
 

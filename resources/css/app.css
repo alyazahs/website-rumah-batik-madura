@@ -24,11 +24,10 @@
         /* Modern Nav Styling */
         .modern-nav {
             position: fixed;
-            transform: translateX(-120%);
-            left: 5%;
-            margin-top: 0.5rem;
+            left: 50%; /* Pusatkan secara horizontal */
+            transform: translateX(-50%); /* Sesuaikan posisi tepat di tengah */
             top: 0;
-            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
             width: 90%;
             max-width: 1200px;
             height: 60px;
@@ -40,19 +39,15 @@
             transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1);
         }
 
-        .modern-nav {
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-
         /* Header states */
         .modern-nav.header-hidden {
-            transform: translateY(-100%);
+            transform: translateX(-50%) translateY(-100%);
             opacity: 0;
             pointer-events: none;
         }
 
         .modern-nav.header-visible {
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
 
