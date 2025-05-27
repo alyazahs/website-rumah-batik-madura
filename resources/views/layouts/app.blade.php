@@ -7,253 +7,9 @@
     <title>@yield('title', 'Batik Madura') - Warisan Budaya Indonesia</title>
     <meta name="description" content="@yield('meta_description', 'Temukan koleksi batik Madura asli dengan kualitas terbaik. Menjaga tradisi dan keaslian batik Madura.')">
     @vite('resources/css/app.css')
-    <script src="{{ asset('js/menu.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        /* Base styling */
-        :root {
-            --primary-dark: #27445D;
-            --primary-light: #497D74;
-            --accent: #F0C808;
-            --text-light: #F9FAFB;
-            --transition: all 0.3s ease;
-        }
-
-        /* Modern Nav Styling */
-        .modern-nav {
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1280px;
-            /* max-w-screen-xl equivalent */
-            margin: 1rem auto;
-            border-radius: 9999px;
-            /* Oval shape */
-            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            backdrop-filter: blur(8px);
-            transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
-                opacity 0.4s cubic-bezier(0.33, 1, 0.68, 1),
-                box-shadow 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-            z-index: 50;
-        }
-
-        /* Header states */
-        .modern-nav.header-hidden {
-            transform: translate(-50%, -100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .modern-nav.header-visible {
-            transform: translate(-50%, 0);
-            opacity: 1;
-        }
-
-        .modern-nav.header-pinned {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Active and hover effects */
-        .nav-link {
-            position: relative;
-            transition: var(--transition);
-            padding-bottom: 4px;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-link.active {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .nav-link.active::after {
-            width: 100%;
-            background-color: var(--accent);
-        }
-
-        html {
-        scroll-behavior: smooth;
-    }
     
-    /* Improved hover effects for all links */
-    a {
-        transition: all 0.3s ease;
-    }
-    
-    /* Enhanced social icons with pulse effect */
-    .social-icon {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-    }
-    
-    .social-icon:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    }
-    
-    /* Subtle float animation for cards if used in the content */
-    .card-float {
-        transition: transform 0.5s ease, box-shadow 0.5s ease;
-    }
-    
-    .card-float:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Button animations */
-    .btn-animated {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-animated:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: all 0.6s ease;
-    }
-    
-    .btn-animated:hover:before {
-        left: 100%;
-    }
-        /* Mobile menu animations */
-        .menu-button span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            margin-bottom: 5px;
-            background-color: white;
-            transition: var(--transition);
-        }
-
-        .menu-button.active span:nth-child(1) {
-            transform: translateY(7px) rotate(45deg);
-        }
-
-        .menu-button.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-button.active span:nth-child(3) {
-            transform: translateY(-7px) rotate(-45deg);
-        }
-
-        /* Modern dropdown styling */
-        .dropdown-menu {
-            transform: translateY(10px);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-
-        .dropdown-menu.show {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .dropdown-item {
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-        }
-
-        .dropdown-item:hover {
-            border-left-color: var(--primary-dark);
-            background-color: rgba(79, 70, 229, 0.1);
-        }
-
-        /* Footer styling */
-        .social-icon {
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 9999px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .footer-link {
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .footer-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .footer-link:hover::after {
-            width: 100%;
-        }
-
-        /* Add extra padding to main content to account for fixed navbar */
-        main {
-            padding-top: 6rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Hide Alpine elements before initialization */
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-50 font-sans min-h-screen flex flex-col">
@@ -586,11 +342,6 @@
 </footer>
 @endif
 
-<!-- Additional styles for animations -->
-<style>
-    /* Smooth scrolling for the whole page */
-    
-</style>
 
 <script>
     document.addEventListener('alpine:init', () => {
@@ -639,6 +390,27 @@
         if (header) {
             header.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        let lastScrollTop = 0;
+        const header = document.querySelector('.modern-nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (currentScroll > lastScrollTop) {
+                // Scrolling down
+                header.classList.add('header-hidden');
+                header.classList.remove('header-visible');
+            } else {
+                // Scrolling up
+                header.classList.remove('header-hidden');
+                header.classList.add('header-visible');
+            }
+
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Avoid negative scroll
+        });
     });
 </script>
 
