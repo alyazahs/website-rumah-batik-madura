@@ -72,7 +72,7 @@
                 <div class="p-6">
                     <div class="flex items-center text-sm">
                         <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                        <span class="text-slate-600">Active administrators</span>
+                        <span class="text-slate-600">Total administrators</span>
                     </div>
                 </div>
             </div>

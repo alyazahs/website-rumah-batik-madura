@@ -98,14 +98,14 @@
                         <label for="login" class="block text-sm font-semibold text-white">Username atau Email</label>
                         <input id="login" name="login" type="text" value="{{ old('login') }}" required
                                class="mt-1 w-full px-4 py-2 rounded-md bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-batik-orange input-glow"
-                               placeholder="admin atau admin@example.com">
+                               placeholder="Username/Email">
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-semibold text-white">Password</label>
                         <div class="relative">
                             <input id="password" name="password" type="password" required
                                    class="mt-1 w-full px-4 py-2 rounded-md bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-batik-orange input-glow"
-                                   placeholder="••••••••">
+                                   placeholder="Password">
                             <button type="button" id="togglePassword" class="absolute right-3 top-2.5 text-gray-300">
                                 <svg id="eyeIcon" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />

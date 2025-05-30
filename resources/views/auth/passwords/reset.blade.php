@@ -78,7 +78,7 @@
                         <label for="password" class="block text-sm font-semibold text-white">Password Baru</label>
                         <input type="password" name="password"
                                class="mt-1 w-full px-4 py-2 rounded-md bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-batik-orange input-glow"
-                               required placeholder="••••••••">
+                               required placeholder="Password Baru">
                         @error('password')
                             <div class="text-red-400 mt-1 text-sm">{{ $message }}</div>
                         @enderror
@@ -88,7 +88,7 @@
                         <label for="password_confirmation" class="block text-sm font-semibold text-white">Konfirmasi Password</label>
                         <input type="password" name="password_confirmation"
                                class="mt-1 w-full px-4 py-2 rounded-md bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-batik-orange input-glow"
-                               required placeholder="••••••••">
+                               required placeholder="Password Konfirmasi">
                     </div>
 
                     <button type="submit" class="w-full py-2 px-4 bg-batik-orange text-white font-semibold rounded-md shadow-lg hover:bg-orange-600 transition duration-300">
