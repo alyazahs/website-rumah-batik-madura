@@ -33,6 +33,16 @@ Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
+// Halaman kebijakan privasi
+Route::get('/kebijakan privasi', function () {
+    return view('kebijakan-privasi');
+})->name('kebijakan-privasi');
+
+// Halaman syarat dan ketentuan
+Route::get('/syarat & ketentuan', function () {
+    return view('syarat-ketentuan');
+})->name('syarat-ketentuan');
+
 // ===========================
 // AUTHENTICATION ROUTES
 // ===========================

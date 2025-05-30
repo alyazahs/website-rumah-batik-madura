@@ -17,17 +17,9 @@
                 <span class="text-gray-900 font-medium">{{ $product->nameProduct }}</span>
             </div>
         </nav>
-
-        <!-- Main Product Card -->
-        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden backdrop-blur-sm bg-white/95">
-            
+        
             <!-- Product Image Section - Now on Top -->
             <div class="relative bg-gradient-to-br from-gray-50 to-gray-100 p-8 lg:p-12 flex items-center justify-center min-h-[500px]">
-                <!-- Decorative Elements -->
-                <div class="absolute top-4 left-4 w-20 h-20 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
-                <div class="absolute bottom-4 right-4 w-32 h-32 bg-blue-100 rounded-full opacity-30 blur-2xl"></div>
-                
-                <div class="relative max-w-lg w-full">
                     <div class="relative group">
                         <!-- Image Container with Hover Effects -->
                         <div class="relative bg-white rounded-2xl p-6 shadow-lg group-hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-2">
@@ -46,11 +38,6 @@
                             
                             <!-- Image Overlay -->
                             <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
-                        </div>
-                        
-                        <!-- Floating Badge -->
-                        <div class="absolute -top-2 -right-2 bg-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg transform rotate-12">
-                            Premium
                         </div>
                     </div>
                 </div>
@@ -72,17 +59,11 @@
                             </button>
                         </div>
                         
-                        <!-- Price with Animation -->
+                        <!-- Price -->
                         <div class="relative">
                             <div class="flex items-baseline space-x-2">
                                 <span class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                                     Rp{{ number_format($product->price, 0, ',', '.') }}
-                                </span>
-                                <span class="text-lg text-gray-500 line-through opacity-75">
-                                    Rp{{ number_format($product->price * 1.2, 0, ',', '.') }}
-                                </span>
-                                <span class="bg-red-500 text-white px-2 py-1 rounded-md text-sm font-semibold animate-pulse">
-                                    20% OFF
                                 </span>
                             </div>
                         </div>
@@ -163,22 +144,6 @@
                         <!-- Ripple Effect -->
                         <div class="absolute inset-0 -z-10 bg-white opacity-25 scale-0 group-hover:scale-100 rounded-2xl transition-transform duration-500"></div>
                     </a>
-                    
-                    <!-- Additional Action Buttons -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <button class="flex items-center justify-center gap-2 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-300 hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                            </svg>
-                            Share
-                        </button>
-                        <button class="flex items-center justify-center gap-2 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-300 hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m0 0v16a2 2 0 01-2 2H9a2 2 0 01-2-2V4m6 0V2"></path>
-                            </svg>
-                            Save
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

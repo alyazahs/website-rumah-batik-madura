@@ -324,13 +324,15 @@
 
                     <ul class="flex gap-6 text-sm text-gray-300">
                         <li>
-                            <a href="#" class="footer-link relative hover:text-white transition-colors duration-300 group">
+                            <a href="{{ route('kebijakan-privasi') }}" 
+                            class="footer-link relative hover:text-white transition-colors duration-300 group">
                                 Kebijakan Privasi
                                 <span class="absolute bottom-0 left-0 w-0 bg-yellow-300 h-0.5 transition-all duration-300 group-hover:w-full"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="footer-link relative hover:text-white transition-colors duration-300 group">
+                            <a href="{{ route('syarat-ketentuan') }}" 
+                            class="footer-link relative hover:text-white transition-colors duration-300 group">
                                 Syarat & Ketentuan
                                 <span class="absolute bottom-0 left-0 w-0 bg-yellow-300 h-0.5 transition-all duration-300 group-hover:w-full"></span>
                             </a>
