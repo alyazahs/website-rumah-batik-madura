@@ -27,7 +27,8 @@ class AdminAuth
 
         if ($user->status !== 'Active') {
             Log::info('❌ User nonaktif. Status: ' . $user->status);
-            abort(403, 'Akun Anda sedang nonaktif.');
+            Auth::logout(); 
+            return redirect()->route('admin.login')->withErrors(['message' => 'Akun Anda tidak aktif. Silakan hubungi administrator.']);
         }
 
         Log::info('✅ Akses diizinkan');
