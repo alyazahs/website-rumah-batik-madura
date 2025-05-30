@@ -52,11 +52,6 @@
                             <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                                 {{ $product->nameProduct }}
                             </h1>
-                            <button class="p-3 rounded-full bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 transition-all duration-300 group">
-                                <svg class="w-6 h-6 transform group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                </svg>
-                            </button>
                         </div>
                         
                         <!-- Price -->
