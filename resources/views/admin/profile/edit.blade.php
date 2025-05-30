@@ -5,8 +5,8 @@
 {{-- Flash Message --}}
 @if (session('success'))
 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" x-transition
-    class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-2xl border border-green-300 backdrop-blur-sm">
-    <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm shrink-0 mt-0.5">
+        class="mt-10 mx-4 flex items-start gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-2xl border border-green-400">
+    <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
@@ -32,9 +32,6 @@
     <!-- Decorative Background Elements -->
     <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-200 to-cyan-200 opacity-20 rounded-full -translate-y-48 translate-x-48 blur-3xl"></div>
     <div class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-teal-200 to-emerald-200 opacity-20 rounded-full translate-y-40 -translate-x-40 blur-3xl"></div>
-    
-    {{-- Batik Pattern Overlay --}}
-    <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23164e63&quot; fill-opacity=&quot;0.4&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;4&quot;/%3E%3Ccircle cx=&quot;15&quot; cy=&quot;15&quot; r=&quot;2&quot;/%3E%3Ccircle cx=&quot;45&quot; cy=&quot;15&quot; r=&quot;2&quot;/%3E%3Ccircle cx=&quot;15&quot; cy=&quot;45&quot; r=&quot;2&quot;/%3E%3Ccircle cx=&quot;45&quot; cy=&quot;45&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
 
     {{-- Profile Card --}}
     <div class="relative max-w-5xl mx-auto pt-10 pb-16 px-4">
@@ -181,7 +178,7 @@
 
                         <div class="mt-8 flex flex-col sm:flex-row gap-4">
                             <button type="button" onclick="toggleEdit(false)"
-                                class="flex-1 bg-gradient-to-r from-slate-400 to-slate-500 via-red-700 to-teal-600 hover:from-slate-700 hover:via-red-800 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105">
+                                class="flex-1 bg-gradient-to-r from-red-800 to-rose-600 hover:via-red-900 hover:to-rose-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105">
                                 <i class="fas fa-times mr-3 text-lg"></i> 
                                 <span class="text-lg">Cancel</span>
                             </button>

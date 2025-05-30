@@ -208,7 +208,7 @@
                     {{-- Action Buttons --}}
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="{{ route('profile.edit') }}" 
-                           class="flex-1 bg-gradient-to-r from-slate-400 to-slate-500 via-green-700 to-teal-600 hover:from-slate-700 hover:via-green-800 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105">
+                           class="flex-1 bg-gradient-to-r from-slate-600 via-cyan-700 to-teal-600 hover:from-slate-700 hover:via-cyan-800 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl>
                             <i class="fas fa-arrow-left mr-3 text-lg"></i> 
                             <span class="text-lg">Kembali</span>
                         </a>
